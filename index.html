@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ForgeGrip — The Gym OS for Obstacle Athletes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,700;0,900;1,900&family=Epilogue:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:   #0A0A0A;
+      --cream:   #F0EAE0;
+      --cream2:  #E8E0D4;
+      --white:   #FAFAF8;
+      --gray:    #F4F0EB;
+      --teal:    #06B6D4;
+      --teal-d:  #0891B2;
+      --volt:    #A3E635;
+      --volt-d:  #84CC16;
+      --gold:    #D97706;
+      --red:     #DC2626;
+      --ink:     #1A1A1A;
+      --muted:   #6B6058;
+      --dim:     #9B8F85;
+      --rule:    #0A0A0A;
+      --font-d:  'Barlow', sans-serif;
+      --font-b:  'Epilogue', sans-serif;
+      --font-m:  'DM Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-b); color: var(--ink); background: var(--white); overflow-x: hidden; }
+
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 32px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      padding: 0; transition: background 0.3s, border-color 0.3s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled { background: var(--white); border-bottom-color: var(--cream2); }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1160px; margin: 0 auto; padding: 18px 32px;
+    }
+    .logo {
+      font-family: var(--font-d); font-weight: 900; font-size: 22px;
+      letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none;
+      color: var(--white); transition: color 0.3s; display: flex; align-items: center; gap: 2px;
+    }
+    nav.scrolled .logo { color: var(--ink); }
+    .logo-grip { color: var(--teal); }
+    .logo-dot {
+      width: 6px; height: 6px; background: var(--volt); border-radius: 50%;
+      margin-left: 3px; display: inline-block;
+      animation: dotblink 2s ease-in-out infinite;
+    }
+    @keyframes dotblink { 0%,100%{opacity:1;} 50%{opacity:0.25;} }
+
+    .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; }
+    .nav-links a {
+      font-family: var(--font-b); font-size: 13px; font-weight: 500;
+      text-decoration: none; color: rgba(255,255,255,0.6); transition: color 0.3s;
+      letter-spacing: 0.02em;
+    }
+    nav.scrolled .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--white); }
+    nav.scrolled .nav-links a:hover { color: var(--ink); }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
+      font-family: var(--font-b); font-weight: 600; text-decoration: none; border: none;
+      transition: all 0.18s; letter-spacing: 0.01em;
+    }
+    .btn-nav {
+      padding: 9px 18px; border-radius: 4px;
+      background: var(--volt); color: var(--black); font-size: 13px; font-weight: 700;
+    }
+    .btn-nav:hover { background: #BEF264; transform: translateY(-1px); }
+    .btn-primary {
+      padding: 15px 32px; background: var(--volt); color: var(--black);
+      font-size: 15px; font-weight: 700; border-radius: 4px;
+    }
+    .btn-primary:hover { background: #BEF264; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(163,230,53,0.35); }
+    .btn-ghost {
+      padding: 14px 30px; background: transparent; color: var(--white);
+      font-size: 15px; font-weight: 600; border-radius: 4px; border: 1.5px solid rgba(255,255,255,0.3);
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.8); }
+    .btn-dark {
+      padding: 14px 30px; background: var(--black); color: var(--white);
+      font-size: 15px; font-weight: 700; border-radius: 4px;
+    }
+    .btn-dark:hover { background: #222; transform: translateY(-1px); }
+    .btn-teal {
+      padding: 15px 32px; background: var(--teal); color: var(--black);
+      font-size: 15px; font-weight: 700; border-radius: 4px;
+    }
+    .btn-teal:hover { background: #22D3EE; transform: translateY(-2px); }
+
+    /* ── HERO (BLACK) ── */
+    .hero {
+      background: var(--black); min-height: 100vh;
+      display: flex; align-items: center; padding: 100px 0 80px;
+      position: relative; overflow: hidden;
+    }
+    /* Subtle grid */
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 72px 72px;
+    }
+    .hero-inner {
+      display: grid; grid-template-columns: 1fr 0.85fr;
+      gap: 72px; align-items: center; position: relative; z-index: 1;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--teal); margin-bottom: 28px;
+    }
+    .tag-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border: 1px solid rgba(6,182,212,0.35);
+      border-radius: 2px; background: rgba(6,182,212,0.07);
+    }
+    .live-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--volt);
+      animation: livepulse 1.4s ease-in-out infinite;
+    }
+    @keyframes livepulse { 0%,100%{box-shadow:0 0 0 0 rgba(163,230,53,0.7);} 60%{box-shadow:0 0 0 5px rgba(163,230,53,0);} }
+
+    h1.hero-h {
+      font-family: var(--font-d); font-weight: 900;
+      font-size: clamp(56px, 8vw, 104px); line-height: 0.9;
+      text-transform: uppercase; letter-spacing: -0.02em; margin-bottom: 28px;
+      animation: riseIn 0.7s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    .hero-h .white { color: var(--cream); }
+    .hero-h .teal  { color: var(--teal); }
+
+    .hero-sub {
+      font-size: 17px; color: rgba(240,234,224,0.65); line-height: 1.7;
+      max-width: 460px; margin-bottom: 36px;
+      animation: riseIn 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s both;
+    }
+    .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 52px; animation: riseIn 0.7s ease 0.18s both; }
+    .hero-stats { display: flex; gap: 0; animation: riseIn 0.7s ease 0.26s both; }
+    .hstat {
+      padding: 16px 24px; border: 1px solid rgba(255,255,255,0.1);
+      border-right: none; display: flex; flex-direction: column; gap: 4px;
+    }
+    .hstat:last-child { border-right: 1px solid rgba(255,255,255,0.1); }
+    .hstat-n {
+      font-family: var(--font-d); font-weight: 900; font-size: 26px;
+      color: var(--cream); letter-spacing: -0.02em; line-height: 1;
+    }
+    .hstat-l { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(240,234,224,0.4); }
+
+    @keyframes riseIn { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+    @keyframes slideR { from{opacity:0;transform:translateX(40px);} to{opacity:1;transform:translateX(0);} }
+
+    /* ── HERO VISUAL — PAPER CARD ── */
+    .hero-visual { animation: slideR 0.8s cubic-bezier(0.16,1,0.3,1) 0.2s both; position: relative; }
+
+    .paper-card {
+      background: var(--cream); border: 1.5px solid var(--cream2);
+      box-shadow: 12px 12px 0 rgba(255,255,255,0.08), 0 32px 64px rgba(0,0,0,0.6);
+      overflow: hidden;
+    }
+    .pc-header {
+      background: var(--black); padding: 14px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .pc-title-wrap { display: flex; flex-direction: column; gap: 2px; }
+    .pc-date { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .pc-title { font-family: var(--font-d); font-weight: 900; font-size: 17px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--cream); }
+    .pc-title em { color: var(--teal); font-style: normal; }
+    .live-badge {
+      display: flex; align-items: center; gap: 5px;
+      padding: 4px 10px; background: rgba(163,230,53,0.15);
+      border: 1px solid rgba(163,230,53,0.4);
+      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--volt);
+    }
+    .pc-body { padding: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: var(--cream); }
+    .pc-block { background: var(--white); border: 1px solid var(--cream2); padding: 12px; }
+    .pb-title {
+      font-family: var(--font-d); font-weight: 900; font-size: 10px; text-transform: uppercase;
+      letter-spacing: 0.12em; margin-bottom: 9px; padding-bottom: 7px;
+      border-bottom: 1px solid var(--cream2);
+    }
+    .pb-title.ct { color: var(--teal); }
+    .pb-title.cp { color: #8B5CF6; }
+    .pb-title.co { color: #EA580C; }
+    .pb-title.cg { color: var(--volt-d); }
+    .pb-ex { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 11px; }
+    .pb-ex:last-child { border-bottom: none; }
+    .pb-en { color: var(--ink); font-weight: 500; }
+    .pb-rx { font-family: var(--font-m); font-size: 10px; color: var(--muted); }
+    .pc-footer {
+      padding: 9px 16px; background: var(--black);
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.08em;
+    }
+    .pcf-l { color: rgba(255,255,255,0.3); }
+    .pcf-r { display: flex; align-items: center; gap: 5px; color: var(--volt); }
+
+    /* Floating cards */
+    .fc {
+      position: absolute; background: var(--black);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 12px 14px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    }
+    .fc-phone { bottom: -20px; left: -28px; width: 166px; animation: floatA 4s ease-in-out infinite; }
+    .fc-lb    { top: -16px; right: -20px; width: 154px; animation: floatA 4s ease-in-out 2.2s infinite; }
+    @keyframes floatA { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+
+    .fc-lbl { font-family: var(--font-m); font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
+    .pub-btn {
+      background: var(--teal); color: var(--black);
+      font-family: var(--font-d); font-weight: 900; font-size: 10px;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      padding: 7px 10px; text-align: center;
+      animation: pubpulse 2s ease-in-out infinite;
+    }
+    @keyframes pubpulse { 0%,100%{box-shadow:0 0 0 0 rgba(6,182,212,0.5);} 50%{box-shadow:0 0 0 7px rgba(6,182,212,0);} }
+    .ph-rows { margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+    .ph-row { display: flex; justify-content: space-between; font-size: 10px; padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.07); color: rgba(255,255,255,0.5); }
+
+    .lb-head { font-family: var(--font-m); font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 9px; }
+    .lb-row { display: flex; align-items: center; gap: 7px; padding: 3px 0; font-size: 11px; }
+    .lb-r { font-family: var(--font-m); font-size: 9px; width: 14px; color: rgba(255,255,255,0.3); }
+    .lb-r.g { color: var(--gold); } .lb-r.s { color: #94A3B8; } .lb-r.b { color: #B45309; }
+    .lb-n { flex: 1; color: rgba(255,255,255,0.85); font-weight: 500; font-size: 11px; }
+    .lb-p { font-family: var(--font-m); font-size: 9px; color: var(--teal); }
+
+    /* ── STATS STRIP ── */
+    .stats-strip {
+      background: var(--cream); border-bottom: 1.5px solid var(--ink);
+      padding: 0; overflow: hidden;
+    }
+    .ss-inner { display: flex; }
+    .ss-item {
+      flex: 1; padding: 28px 32px; border-right: 1.5px solid var(--ink);
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .ss-item:last-child { border-right: none; }
+    .ss-num { font-family: var(--font-d); font-weight: 900; font-size: 40px; line-height: 1; letter-spacing: -0.03em; }
+    .ss-num.ct { color: var(--teal-d); } .ss-num.cv { color: var(--volt-d); } .ss-num.cg { color: var(--gold); }
+    .ss-lbl { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+    /* ── SECTION COMMON ── */
+    section { position: relative; }
+    .s-cream { background: var(--cream); }
+    .s-white { background: var(--white); }
+    .s-black { background: var(--black); }
+    .s-teal  { background: var(--teal); }
+    .pad { padding: 96px 0; }
+    .pad-sm { padding: 72px 0; }
+
+    .sec-row {
+      display: flex; align-items: baseline; gap: 16px;
+      border-bottom: 1.5px solid var(--ink); padding-bottom: 14px; margin-bottom: 52px;
+    }
+    .sec-num { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+    .sec-label { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal-d); }
+
+    .sec-h {
+      font-family: var(--font-d); font-weight: 900;
+      font-size: clamp(38px, 5vw, 64px); line-height: 0.94;
+      text-transform: uppercase; letter-spacing: -0.02em; margin-bottom: 18px;
+    }
+    .sec-sub { font-size: 16px; color: var(--muted); line-height: 1.7; max-width: 520px; }
+    .sec-h-inv { color: var(--cream); }
+    .sec-sub-inv { color: rgba(240,234,224,0.55); }
+
+    /* scroll reveal */
+    .rev { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .rev.on { opacity: 1; transform: none; }
+    .d1{transition-delay:.1s;} .d2{transition-delay:.2s;} .d3{transition-delay:.3s;}
+
+    /* ── PROBLEM ── */
+    .prob-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border: 1.5px solid var(--ink); margin-top: 44px;
+    }
+    .prob-cell {
+      padding: 32px 28px; border-right: 1.5px solid var(--ink); position: relative;
+    }
+    .prob-cell:last-child { border-right: none; }
+    .prob-x {
+      position: absolute; top: 14px; right: 14px;
+      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--red); opacity: 0.7;
+    }
+    .prob-icon { font-size: 24px; margin-bottom: 14px; }
+    .prob-title { font-family: var(--font-d); font-weight: 900; font-size: 20px; text-transform: uppercase; letter-spacing: -0.01em; margin-bottom: 10px; line-height: 1.1; }
+    .prob-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+    /* ── FEATURES ── */
+    .feat-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border: 1.5px solid var(--ink);
+    }
+    .feat-cell {
+      padding: 32px 28px; border-right: 1.5px solid var(--ink);
+      border-bottom: 1.5px solid var(--ink);
+      position: relative; overflow: hidden; transition: background 0.2s;
+    }
+    .feat-cell:nth-child(3n) { border-right: none; }
+    .feat-cell:nth-child(4), .feat-cell:nth-child(5), .feat-cell:nth-child(6) { border-bottom: none; }
+    .feat-cell:hover { background: var(--gray); }
+    .feat-num { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.14em; color: var(--dim); margin-bottom: 20px; }
+    .feat-icon { font-size: 26px; margin-bottom: 13px; display: block; }
+    .feat-title { font-family: var(--font-d); font-weight: 900; font-size: 19px; text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05; margin-bottom: 10px; }
+    .feat-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+    .feat-tag {
+      display: inline-block; margin-top: 14px; padding: 3px 8px;
+      border: 1px solid var(--cream2); background: var(--cream);
+      font-family: var(--font-m); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim);
+    }
+    /* colored left strip on each feature */
+    .feat-cell::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--fc, var(--teal)); transform: scaleY(0); transform-origin: top; transition: transform 0.3s; }
+    .feat-cell:hover::before { transform: scaleY(1); }
+
+    /* ── DISPLAY SECTION ── */
+    .disp-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 72px; align-items: center; }
+    .check-list { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
+    .ci { display: flex; align-items: start; gap: 12px; font-size: 14px; color: var(--muted); line-height: 1.5; }
+    .ci strong { color: var(--ink); }
+    .ci-mark { flex-shrink: 0; width: 20px; height: 20px; background: var(--volt); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--black); margin-top: 1px; }
+
+    /* TV Mockup */
+    .tv-wrap { position: relative; }
+    .tv-frame {
+      background: #101010; border: 2px solid #1e1e1e;
+      padding: 10px; box-shadow: 0 40px 80px rgba(0,0,0,0.35);
+    }
+    .tv-screen { background: var(--cream); overflow: hidden; }
+    .tv-h {
+      background: var(--black); padding: 10px 14px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .tv-title { font-family: var(--font-d); font-weight: 900; font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--cream); }
+    .tv-title em { color: var(--teal); font-style: normal; }
+    .tv-clock { font-family: var(--font-m); font-size: 14px; color: var(--cream); }
+    .tv-body { padding: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+    .tv-block { background: var(--white); border: 1px solid var(--cream2); padding: 10px; }
+    .tv-bt { font-family: var(--font-d); font-weight: 900; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 7px; padding-bottom: 6px; border-bottom: 1px solid var(--cream2); }
+    .tv-bt.ct{color:var(--teal-d);} .tv-bt.co{color:#EA580C;} .tv-bt.cp{color:#7C3AED;} .tv-bt.cg{color:var(--volt-d);}
+    .tv-ex { display: flex; justify-content: space-between; font-size: 10px; padding: 2.5px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .tv-ex:last-child { border-bottom: none; }
+    .tv-en { color: var(--ink); font-weight: 500; }
+    .tv-er { font-family: var(--font-m); font-size: 9px; color: var(--muted); }
+    .tv-foot { background: var(--black); padding: 7px 12px; display: flex; justify-content: space-between; align-items: center; }
+    .tv-fl { font-family: var(--font-m); font-size: 7px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); }
+    .tv-fr { display: flex; align-items: center; gap: 4px; font-family: var(--font-m); font-size: 7px; letter-spacing: 0.12em; color: var(--volt); }
+    .tv-note { margin-top: 10px; text-align: center; font-family: var(--font-m); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); }
+
+    /* ── COACH SECTION ── */
+    .coach-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 72px; align-items: start; }
+    .cc-cards { display: flex; flex-direction: column; gap: 10px; }
+    .cc {
+      background: var(--white); border: 1.5px solid var(--cream2);
+      padding: 18px; transition: border-color 0.2s, transform 0.2s;
+    }
+    .cc:hover { border-color: var(--ink); transform: translateX(3px); }
+    .cc-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 11px; }
+    .cc-t { font-family: var(--font-d); font-weight: 900; font-size: 14px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--ink); }
+    .badge { padding: 3px 7px; font-family: var(--font-m); font-size: 8px; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid; }
+    .badge-r { color: var(--red); border-color: var(--red); background: rgba(220,38,38,0.06); }
+    .badge-g { color: var(--volt-d); border-color: var(--volt-d); background: rgba(132,204,22,0.08); }
+    .badge-b { color: var(--teal-d); border-color: var(--teal-d); background: rgba(8,145,178,0.07); }
+
+    .mem-rows { display: flex; flex-direction: column; gap: 7px; }
+    .mr { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: var(--cream); }
+    .mr-name { font-weight: 600; font-size: 13px; color: var(--ink); }
+    .mr-areas { font-size: 10px; color: var(--muted); margin-top: 1px; }
+
+    .heatmap { display: flex; flex-direction: column; gap: 7px; }
+    .hm-row { display: grid; grid-template-columns: 76px 1fr 18px; gap: 8px; align-items: center; }
+    .hm-label { font-family: var(--font-m); font-size: 9px; color: var(--muted); }
+    .hm-track { height: 4px; background: var(--cream2); overflow: hidden; }
+    .hm-fill { height: 100%; width: 0; background: var(--hc, var(--teal)); transition: width 1.4s cubic-bezier(0.16,1,0.3,1); }
+    .hm-val { font-family: var(--font-m); font-size: 9px; text-align: right; color: var(--hc, var(--muted)); }
+
+    .chips { display: flex; gap: 5px; flex-wrap: wrap; }
+    .chip { padding: 5px 9px; border: 1px solid var(--cream2); font-size: 10px; color: var(--muted); background: var(--cream); cursor: default; }
+    .chip.on { border-color: var(--teal-d); color: var(--teal-d); background: rgba(8,145,178,0.06); }
+
+    .msg-box { background: var(--cream); border-left: 3px solid var(--teal); padding: 12px 14px; }
+    .msg-from { font-family: var(--font-m); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal-d); margin-bottom: 5px; }
+    .msg-text { font-size: 13px; color: var(--ink); line-height: 1.55; font-style: italic; }
+    .msg-note { font-family: var(--font-m); font-size: 8px; color: var(--dim); margin-top: 6px; }
+
+    .benefit-list { display: flex; flex-direction: column; gap: 16px; }
+    .bi { display: flex; gap: 13px; align-items: start; }
+    .bi-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+    .bi-title { font-family: var(--font-d); font-weight: 900; font-size: 16px; text-transform: uppercase; letter-spacing: 0.01em; margin-bottom: 3px; }
+    .bi-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+    /* ── MEMBER PHONE ── */
+    .mem-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+    .mem-phone {
+      background: var(--cream); border: 1.5px solid var(--ink);
+      padding: 22px; max-width: 300px; margin: 0 auto;
+      box-shadow: 8px 8px 0 var(--ink);
+    }
+    .mem-greet { font-family: var(--font-d); font-weight: 900; font-size: 28px; text-transform: uppercase; letter-spacing: -0.01em; margin-bottom: 16px; color: var(--ink); }
+    .mem-greet .mn { color: var(--teal-d); }
+    .mem-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 14px; }
+    .ms { background: var(--white); border: 1px solid var(--cream2); padding: 11px 8px; text-align: center; }
+    .ms-val { font-family: var(--font-d); font-weight: 900; font-size: 22px; line-height: 1; margin-bottom: 4px; }
+    .ms-val.streak { color: var(--gold); }
+    .ms-val.pts { color: var(--volt-d); }
+    .ms-val.rank { color: var(--teal-d); }
+    .ms-lbl { font-family: var(--font-m); font-size: 7px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); }
+    .prog-box { background: var(--white); border: 1px solid var(--cream2); padding: 14px; margin-bottom: 10px; }
+    .prog-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .prog-title { font-size: 12px; font-weight: 600; color: var(--ink); }
+    .prog-delta { font-family: var(--font-m); font-size: 10px; color: var(--volt-d); }
+    .mini-chart { height: 44px; }
+    .mini-chart svg { width: 100%; height: 100%; }
+    .chart-labels { display: flex; justify-content: space-between; font-family: var(--font-m); font-size: 8px; color: var(--dim); margin-top: 3px; }
+    .coach-note { border-left: 3px solid var(--teal); padding: 10px 12px; background: var(--white); }
+    .cn-from { font-family: var(--font-m); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal-d); margin-bottom: 4px; }
+    .cn-text { font-size: 12px; color: var(--ink); line-height: 1.5; font-style: italic; }
+
+    /* ── NICHE (BLACK) ── */
+    .niche-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+    .niche-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .nc {
+      border: 1px solid rgba(255,255,255,0.12); padding: 22px 18px;
+      transition: border-color 0.2s, transform 0.2s; background: rgba(255,255,255,0.03);
+    }
+    .nc:hover { border-color: var(--volt); transform: translateY(-3px); }
+    .nc-icon { font-size: 24px; margin-bottom: 10px; }
+    .nc-title { font-family: var(--font-d); font-weight: 900; font-size: 15px; text-transform: uppercase; letter-spacing: 0.01em; margin-bottom: 6px; color: var(--cream); line-height: 1.15; }
+    .nc-desc { font-size: 12px; color: rgba(240,234,224,0.45); line-height: 1.55; }
+
+    /* ── PRICING ── */
+    .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1.5px solid var(--ink); margin-top: 52px; }
+    .price-cell {
+      padding: 36px 28px; border-right: 1.5px solid var(--ink); position: relative;
+    }
+    .price-cell:last-child { border-right: none; }
+    .price-cell.featured { background: var(--black); }
+    .price-best {
+      display: inline-block; margin-bottom: 10px; padding: 3px 10px;
+      background: var(--volt); color: var(--black);
+      font-family: var(--font-m); font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500;
+    }
+    .price-tier { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+    .price-cell.featured .price-tier { color: rgba(255,255,255,0.4); }
+    .price-amt { font-family: var(--font-d); font-weight: 900; font-size: 52px; line-height: 1; letter-spacing: -0.03em; margin-bottom: 3px; }
+    .price-cell.featured .price-amt { color: var(--cream); }
+    .price-amt sup { font-size: 22px; font-weight: 700; vertical-align: super; }
+    .price-period { font-size: 12px; color: var(--muted); margin-bottom: 24px; }
+    .price-cell.featured .price-period { color: rgba(255,255,255,0.35); }
+    .price-feats { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 28px; }
+    .price-feats li { display: flex; align-items: start; gap: 9px; font-size: 13px; color: var(--muted); line-height: 1.4; }
+    .price-feats li::before { content: '—'; color: var(--teal-d); font-weight: 700; flex-shrink: 0; font-family: var(--font-m); }
+    .price-cell.featured .price-feats li { color: rgba(240,234,224,0.5); }
+    .price-cell.featured .price-feats li::before { color: var(--volt); }
+    .btn-price-out { width: 100%; justify-content: center; padding: 12px; background: transparent; border: 1.5px solid var(--ink); color: var(--ink); font-size: 13px; font-weight: 700; font-family: var(--font-b); cursor: pointer; transition: all 0.18s; border-radius: 0; letter-spacing: 0.02em; text-decoration: none; display: flex; align-items: center; }
+    .btn-price-out:hover { background: var(--ink); color: var(--white); }
+    .btn-price-feat { width: 100%; justify-content: center; padding: 12px; background: var(--volt); border: 1.5px solid var(--volt); color: var(--black); font-size: 13px; font-weight: 700; font-family: var(--font-b); cursor: pointer; transition: all 0.18s; border-radius: 0; letter-spacing: 0.02em; text-decoration: none; display: flex; align-items: center; }
+    .btn-price-feat:hover { background: #BEF264; }
+    .price-hw { text-align: center; margin-top: 20px; font-family: var(--font-m); font-size: 9px; letter-spacing: 0.09em; color: var(--dim); }
+
+    /* ── WAITLIST (TEAL) ── */
+    .wl-inner { max-width: 560px; margin: 0 auto; text-align: center; padding: 96px 0; }
+    .wl-h { font-family: var(--font-d); font-weight: 900; font-size: clamp(44px, 7vw, 80px); text-transform: uppercase; line-height: 0.93; margin-bottom: 20px; color: var(--black); letter-spacing: -0.02em; }
+    .wl-sub { font-size: 16px; color: rgba(10,10,10,0.6); margin-bottom: 36px; line-height: 1.65; }
+    .role-toggle { display: flex; gap: 0; justify-content: center; margin-bottom: 16px; border: 1.5px solid var(--black); display: inline-flex; }
+    .role-btn {
+      padding: 9px 20px; background: transparent; color: rgba(10,10,10,0.5);
+      font-family: var(--font-b); font-size: 13px; font-weight: 600; cursor: pointer;
+      border: none; border-right: 1.5px solid var(--black); transition: all 0.18s; letter-spacing: 0.01em;
+    }
+    .role-btn:last-child { border-right: none; }
+    .role-btn.active { background: var(--black); color: var(--white); }
+    .wl-form { display: flex; gap: 0; border: 1.5px solid var(--black); margin-top: 16px; }
+    .wl-input {
+      flex: 1; background: var(--white); border: none; padding: 14px 16px;
+      font-family: var(--font-b); font-size: 15px; color: var(--ink); outline: none;
+    }
+    .wl-input::placeholder { color: rgba(10,10,10,0.35); }
+    .wl-submit {
+      padding: 0 28px; background: var(--black); color: var(--white);
+      font-family: var(--font-b); font-size: 14px; font-weight: 700;
+      border: none; cursor: pointer; transition: background 0.18s; white-space: nowrap; letter-spacing: 0.01em;
+    }
+    .wl-submit:hover { background: #222; }
+    .wl-note { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(10,10,10,0.4); margin-top: 12px; }
+    .wl-ok { display: none; padding: 14px 20px; background: rgba(10,10,10,0.1); border: 1.5px solid var(--black); font-size: 14px; font-weight: 600; color: var(--black); margin-top: 14px; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--black); border-top: 1.5px solid rgba(255,255,255,0.08); padding: 40px 0; }
+    .foot-inner { display: flex; align-items: center; justify-content: space-between; }
+    .foot-logo { font-family: var(--font-d); font-weight: 900; font-size: 20px; text-transform: uppercase; color: var(--cream); text-decoration: none; letter-spacing: 0.04em; }
+    .foot-logo .grip { color: var(--teal); }
+    .foot-copy { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.08em; color: rgba(255,255,255,0.2); margin-top: 5px; }
+    .foot-links { display: flex; gap: 20px; }
+    .foot-links a { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
+    .foot-links a:hover { color: var(--teal); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      .hero-inner, .disp-grid, .coach-grid, .mem-inner, .niche-inner { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .feat-grid { grid-template-columns: 1fr 1fr; }
+      .feat-cell:nth-child(3n) { border-right: 1.5px solid var(--ink); }
+      .feat-cell:nth-child(2n) { border-right: none; }
+      .feat-cell:nth-child(3), .feat-cell:nth-child(4) { border-bottom: 1.5px solid var(--ink); }
+      .feat-cell:nth-child(5), .feat-cell:nth-child(6) { border-bottom: none; }
+      .price-grid { grid-template-columns: 1fr; }
+      .price-cell { border-right: none; border-bottom: 1.5px solid var(--ink); }
+      .price-cell:last-child { border-bottom: none; }
+      .prob-grid { grid-template-columns: 1fr; }
+      .prob-cell { border-right: none; border-bottom: 1.5px solid var(--ink); }
+      .prob-cell:last-child { border-bottom: none; }
+      .ss-inner { flex-wrap: wrap; }
+      .ss-item { min-width: 50%; }
+    }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .feat-grid, .niche-cards { grid-template-columns: 1fr; }
+      .hero-stats { flex-wrap: wrap; }
+      .hstat { min-width: 50%; }
+      .wl-form { flex-direction: column; }
+      .wl-submit { padding: 14px; }
+      .foot-inner { flex-direction: column; gap: 20px; text-align: center; }
+      .role-toggle { flex-direction: column; }
+      .role-btn { border-right: none; border-bottom: 1.5px solid var(--black); }
+      .role-btn:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo">Forge<span class="logo-grip">Grip</span><span class="logo-dot"></span></a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#displays">Displays</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+    </ul>
+    <a href="#waitlist" class="btn btn-nav">Join Waitlist</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-tag">
+          <span class="tag-pill"><span class="live-dot"></span>Early Access — Ninja Warrior &amp; OCR Gyms</span>
+        </div>
+        <h1 class="hero-h">
+          <span class="white">The<br>Whiteboard</span><br>
+          <span class="teal">Is Dead.</span>
+        </h1>
+        <p class="hero-sub">ForgeGrip is the gym operating system built for obstacle sport facilities. Coaches publish the day's workout in 30 seconds. Every screen updates live. Athletes track, compete, and improve.</p>
+        <div class="hero-ctas">
+          <a href="#waitlist" class="btn btn-primary">Join the Waitlist →</a>
+          <a href="#features" class="btn btn-ghost">See How It Works</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hstat"><span class="hstat-n">30s</span><span class="hstat-l">To publish a workout</span></div>
+          <div class="hstat"><span class="hstat-n">300+</span><span class="hstat-l">Exercises in library</span></div>
+          <div class="hstat"><span class="hstat-n">0</span><span class="hstat-l">Passwords for members</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="paper-card">
+          <div class="pc-header">
+            <div class="pc-title-wrap">
+              <span class="pc-date">Monday · Published by Coach Reyes</span>
+              <span class="pc-title">Workout of the <em>Day</em></span>
+            </div>
+            <div class="live-badge"><span class="live-dot"></span>On Air</div>
+          </div>
+          <div class="pc-body">
+            <div class="pc-block">
+              <div class="pb-title ct">Warmup</div>
+              <div class="pb-ex"><span class="pb-en">Jump Rope</span><span class="pb-rx">2 min</span></div>
+              <div class="pb-ex"><span class="pb-en">Walking Lunge</span><span class="pb-rx">10 reps</span></div>
+              <div class="pb-ex"><span class="pb-en">Mtn Climber</span><span class="pb-rx">20 reps</span></div>
+            </div>
+            <div class="pc-block">
+              <div class="pb-title cp">Ninja Skills</div>
+              <div class="pb-ex"><span class="pb-en">Warped Wall</span><span class="pb-rx">x3</span></div>
+              <div class="pb-ex"><span class="pb-en">Rope Climb</span><span class="pb-rx">x3</span></div>
+              <div class="pb-ex"><span class="pb-en">Cliffhanger</span><span class="pb-rx">x2</span></div>
+            </div>
+            <div class="pc-block">
+              <div class="pb-title co">OCR</div>
+              <div class="pb-ex"><span class="pb-en">Push Up</span><span class="pb-rx">3 sets</span></div>
+              <div class="pb-ex"><span class="pb-en">Pull Up</span><span class="pb-rx">8 reps</span></div>
+              <div class="pb-ex"><span class="pb-en">Box Jump</span><span class="pb-rx">15 reps</span></div>
+            </div>
+            <div class="pc-block">
+              <div class="pb-title cg">Conditioning</div>
+              <div class="pb-ex"><span class="pb-en">Running</span><span class="pb-rx">3 laps</span></div>
+              <div class="pb-ex"><span class="pb-en">Burpee</span><span class="pb-rx">20 reps</span></div>
+              <div class="pb-ex"><span class="pb-en">Rowing</span><span class="pb-rx">45 sec</span></div>
+            </div>
+          </div>
+          <div class="pc-footer">
+            <span class="pcf-l">Published 2 min ago</span>
+            <span class="pcf-r"><span class="live-dot"></span>All screens updated</span>
+          </div>
+        </div>
+        <!-- Floating coach phone -->
+        <div class="fc fc-phone">
+          <div class="fc-lbl">Coach Console</div>
+          <div class="ph-rows">
+            <div class="ph-row"><span>Warped Wall</span><span style="color:var(--volt)">x3</span></div>
+            <div class="ph-row"><span>Rope Climb</span><span style="color:var(--volt)">x3</span></div>
+            <div class="ph-row"><span>Pull Up</span><span style="color:var(--volt)">8 reps</span></div>
+          </div>
+          <div style="margin-top:8px;" class="pub-btn">▶ Publish to Wall</div>
+        </div>
+        <!-- Floating leaderboard -->
+        <div class="fc fc-lb">
+          <div class="lb-head">🏆 Leaderboard · Live</div>
+          <div class="lb-row"><span class="lb-r g">1</span><span class="lb-n">Jordan W.</span><span class="lb-p">1620</span></div>
+          <div class="lb-row"><span class="lb-r s">2</span><span class="lb-n">Diego S.</span><span class="lb-p">1575</span></div>
+          <div class="lb-row"><span class="lb-r b">3</span><span class="lb-n">Mateo R.</span><span class="lb-p">1320</span></div>
+          <div class="lb-row"><span class="lb-r">4</span><span class="lb-n">Nora P.</span><span class="lb-p">1310</span></div>
+          <div class="lb-row"><span class="lb-r">5</span><span class="lb-n">Sam V.</span><span class="lb-p">1250</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip" style="border-top:1.5px solid var(--ink);">
+  <div class="ss-inner container">
+    <div class="ss-item"><span class="ss-num ct">Live</span><span class="ss-lbl">Updates across all screens</span></div>
+    <div class="ss-item"><span class="ss-num cv">$0</span><span class="ss-lbl">For members to use</span></div>
+    <div class="ss-item"><span class="ss-num cg">$35</span><span class="ss-lbl">Per display screen</span></div>
+    <div class="ss-item"><span class="ss-num ct">25+</span><span class="ss-lbl">Badges &amp; achievements</span></div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="s-cream pad">
+  <div class="container">
+    <div class="sec-row rev">
+      <span class="sec-num">01</span>
+      <span class="sec-label">The Problem</span>
+    </div>
+    <h2 class="sec-h rev">Sound<br>Familiar?</h2>
+    <div class="prob-grid rev d1">
+      <div class="prob-cell">
+        <div class="prob-x">× Still happening</div>
+        <div class="prob-icon">🗑️</div>
+        <div class="prob-title">Whiteboard gets erased</div>
+        <div class="prob-desc">Records disappear. Workout history is gone. Coaches have no data on what was programmed last month, let alone who struggled with it.</div>
+      </div>
+      <div class="prob-cell">
+        <div class="prob-x">× Still happening</div>
+        <div class="prob-icon">📱</div>
+        <div class="prob-title">Group chat is the system</div>
+        <div class="prob-desc">Events buried in 200 messages. Members miss announcements. Coaches can't message individuals without blasting the whole group.</div>
+      </div>
+      <div class="prob-cell">
+        <div class="prob-x">× Still happening</div>
+        <div class="prob-icon">❓</div>
+        <div class="prob-title">Coaches fly blind</div>
+        <div class="prob-desc">No data on who's struggling. No early warning when members are at risk of quitting. Retention runs on gut instinct.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="s-white pad" id="features">
+  <div class="container">
+    <div class="sec-row rev">
+      <span class="sec-num">02</span>
+      <span class="sec-label">What You Get</span>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:end; margin-bottom:44px;">
+      <h2 class="sec-h rev" style="margin-bottom:0;">Everything<br>Your Gym Needs</h2>
+      <p class="sec-sub rev d1">One platform. Coach tools, member experience, digital displays, and coaching analytics — all connected, all live.</p>
+    </div>
+    <div class="feat-grid rev d2">
+      <div class="feat-cell" style="--fc:var(--teal)">
+        <div class="feat-num">01 / Display</div>
+        <span class="feat-icon">📺</span>
+        <div class="feat-title">Workout of the Day</div>
+        <div class="feat-desc">Coach publishes from their phone in 30 seconds. Fire TV Sticks, tablets, and monitors update instantly via live WebSocket. No manual refresh. No blank screens.</div>
+        <span class="feat-tag">Live via Supabase Realtime</span>
+      </div>
+      <div class="feat-cell" style="--fc:var(--gold)">
+        <div class="feat-num">02 / Display</div>
+        <span class="feat-icon">🏆</span>
+        <div class="feat-title">Live Leaderboard</div>
+        <div class="feat-desc">All-time and monthly rankings update the moment a member checks in. Podium, streaks, milestone celebrations displayed gym-wide in real time. Database-backed. Can't be erased.</div>
+        <span class="feat-tag">All-time + monthly standings</span>
+      </div>
+      <div class="feat-cell" style="--fc:#7C3AED">
+        <div class="feat-num">03 / Display</div>
+        <span class="feat-icon">🎖️</span>
+        <div class="feat-title">Wall of Records</div>
+        <div class="feat-desc">Coach-verified gym records on permanent display. Fastest 3 laps, most pull-ups, longest hang. When a record falls, a celebration fires across every screen simultaneously.</div>
+        <span class="feat-tag">Coach-verified · The bar to beat</span>
+      </div>
+      <div class="feat-cell" style="--fc:var(--volt-d)">
+        <div class="feat-num">04 / Coach</div>
+        <span class="feat-icon">⚡</span>
+        <div class="feat-title">Coach Console</div>
+        <div class="feat-desc">Build workouts from 300+ exercises across Ninja, OCR, Barbell, Kettlebell, and more. Drag, set prescriptions, hit publish. Shout out members. Send personal notes athletes actually read.</div>
+        <span class="feat-tag">300+ exercises · Drag &amp; drop</span>
+      </div>
+      <div class="feat-cell" style="--fc:var(--red)">
+        <div class="feat-num">05 / Coach</div>
+        <span class="feat-icon">🧠</span>
+        <div class="feat-title">Coach Intelligence</div>
+        <div class="feat-desc">Class-wide struggle heatmaps by skill area. Per-member trend breakdowns. Identify at-risk members before they quietly disappear — with structured data, not a hunch.</div>
+        <span class="feat-tag">Class heatmap · Who needs help</span>
+      </div>
+      <div class="feat-cell" style="--fc:var(--teal)">
+        <div class="feat-num">06 / Member</div>
+        <span class="feat-icon">📊</span>
+        <div class="feat-title">Member Dashboard</div>
+        <div class="feat-desc">Streak, rank, points, personal records, progress charts. Log workout struggles that feed directly to their coach. Check in on a tablet — no password, no app download needed.</div>
+        <span class="feat-tag">QR check-in · Progress tracking</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DISPLAYS -->
+<section class="s-cream pad" id="displays">
+  <div class="container">
+    <div class="disp-grid">
+      <div>
+        <div class="sec-row rev">
+          <span class="sec-num">03</span>
+          <span class="sec-label">Digital Displays</span>
+        </div>
+        <h2 class="sec-h rev">One Tap.<br>Every Screen.</h2>
+        <p class="sec-sub rev d1">Coach publishes from their phone. Fire TV Sticks, tablets, and wall monitors across your gym update in seconds.</p>
+        <div class="check-list rev d2">
+          <div class="ci"><span class="ci-mark">✓</span><span><strong>Self-healing</strong> — auto-reconnect on wifi loss, cache the last workout so screens are never blank</span></div>
+          <div class="ci"><span class="ci-mark">✓</span><span><strong>Single-screen rotation</strong> — one TV cycles WOD → Leaderboard → Events automatically</span></div>
+          <div class="ci"><span class="ci-mark">✓</span><span><strong>$35 per screen</strong> — any Fire TV Stick, tablet, or browser-capable monitor. No proprietary hardware</span></div>
+          <div class="ci"><span class="ci-mark">✓</span><span><strong>Celebration broadcasts</strong> — gym record broken, 100th check-in, new milestone: animations fire across all screens at once</span></div>
+          <div class="ci"><span class="ci-mark">✓</span><span><strong>QR code on every display</strong> — members scan to check in without asking the front desk</span></div>
+        </div>
+      </div>
+      <div class="rev d1">
+        <div class="tv-wrap">
+          <div class="tv-frame">
+            <div class="tv-screen">
+              <div class="tv-h">
+                <div>
+                  <div style="font-family:var(--font-m);font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:2px;">Today's Mission</div>
+                  <div class="tv-title">WORKOUT OF THE <em>DAY</em></div>
+                </div>
+                <div class="tv-clock" id="live-clock">--:-- --</div>
+              </div>
+              <div class="tv-body">
+                <div class="tv-block"><div class="tv-bt ct">Warmup</div><div class="tv-ex"><span class="tv-en">Jump Rope</span><span class="tv-er">2 min</span></div><div class="tv-ex"><span class="tv-en">Walking Lunge</span><span class="tv-er">10 reps</span></div><div class="tv-ex"><span class="tv-en">Mtn Climber</span><span class="tv-er">20 reps</span></div></div>
+                <div class="tv-block"><div class="tv-bt co">OCR</div><div class="tv-ex"><span class="tv-en">Push Up</span><span class="tv-er">3 sets</span></div><div class="tv-ex"><span class="tv-en">Pull Up</span><span class="tv-er">8 reps</span></div><div class="tv-ex"><span class="tv-en">Box Jump</span><span class="tv-er">15 reps</span></div></div>
+                <div class="tv-block"><div class="tv-bt cp">Ninja Skills</div><div class="tv-ex"><span class="tv-en">Warped Wall</span><span class="tv-er">x3</span></div><div class="tv-ex"><span class="tv-en">Rope Climb</span><span class="tv-er">x3</span></div><div class="tv-ex"><span class="tv-en">Cliffhanger</span><span class="tv-er">x2</span></div></div>
+                <div class="tv-block"><div class="tv-bt cg">Conditioning</div><div class="tv-ex"><span class="tv-en">Running</span><span class="tv-er">3 laps</span></div><div class="tv-ex"><span class="tv-en">Burpee</span><span class="tv-er">20 reps</span></div><div class="tv-ex"><span class="tv-en">Rowing</span><span class="tv-er">45 sec</span></div></div>
+              </div>
+              <div class="tv-foot">
+                <span class="tv-fl">Published by Coach Reyes · Monday</span>
+                <span class="tv-fr"><span class="live-dot"></span>LIVE</span>
+              </div>
+            </div>
+          </div>
+          <div class="tv-note">Fire TV Stick · Tablet · Any Monitor</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COACH INTELLIGENCE -->
+<section class="s-white pad">
+  <div class="container">
+    <div class="coach-grid">
+      <div class="cc-cards rev">
+        <div class="cc">
+          <div class="cc-head"><span class="cc-t">🚨 Who Needs Help</span><span style="font-family:var(--font-m);font-size:9px;color:var(--dim);">7 on floor</span></div>
+          <div class="mem-rows">
+            <div class="mr"><div><div class="mr-name">Priya N.</div><div class="mr-areas">Lower Body · Upper Body</div></div><span class="badge badge-r">1 Flag</span></div>
+            <div class="mr"><div><div class="mr-name">Jordan W.</div><div class="mr-areas">No flags · 14 days</div></div><span class="badge badge-g">Clear</span></div>
+            <div class="mr"><div><div class="mr-name">Lena T.</div><div class="mr-areas">Balance · 3 sessions</div></div><span class="badge badge-b">Watch</span></div>
+          </div>
+        </div>
+        <div class="cc">
+          <div class="cc-head"><span class="cc-t">🔥 Class Heatmap</span><span style="font-family:var(--font-m);font-size:9px;color:var(--dim);">struggles by area</span></div>
+          <div class="heatmap">
+            <div class="hm-row"><span class="hm-label">Balance</span><div class="hm-track"><div class="hm-fill" style="--hc:var(--red)" data-w="80%"></div></div><span class="hm-val" style="--hc:var(--red)">4</span></div>
+            <div class="hm-row"><span class="hm-label">Core</span><div class="hm-track"><div class="hm-fill" style="--hc:var(--gold)" data-w="40%"></div></div><span class="hm-val" style="--hc:var(--gold)">2</span></div>
+            <div class="hm-row"><span class="hm-label">Lower Body</span><div class="hm-track"><div class="hm-fill" style="--hc:var(--teal-d)" data-w="20%"></div></div><span class="hm-val" style="--hc:var(--teal-d)">1</span></div>
+            <div class="hm-row"><span class="hm-label">Grip</span><div class="hm-track"><div class="hm-fill" data-w="0%"></div></div><span class="hm-val">0</span></div>
+            <div class="hm-row"><span class="hm-label">Upper Body</span><div class="hm-track"><div class="hm-fill" data-w="0%"></div></div><span class="hm-val">0</span></div>
+          </div>
+        </div>
+        <div class="cc">
+          <div class="cc-head"><span class="cc-t">✏️ 2-Tap Observation</span></div>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:9px;">Member → skill area → done. Logged in under 5 seconds.</p>
+          <div class="chips"><span class="chip on">Balance</span><span class="chip">Core</span><span class="chip">Grip</span><span class="chip">Upper Body</span><span class="chip">Lower Body</span><span class="chip">Endurance</span><span class="chip">Technique</span></div>
+        </div>
+        <div class="cc">
+          <div class="cc-head"><span class="cc-t">💬 Coach Note</span><span class="badge badge-g">Sent</span></div>
+          <div class="msg-box">
+            <div class="msg-from">To: Maya L.</div>
+            <div class="msg-text">"Pull-ups went 5 → 10 in eight weeks. The work is showing. Keep going."</div>
+            <div class="msg-note">Member sees this in their app ↗</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="sec-row rev">
+          <span class="sec-num">04</span>
+          <span class="sec-label">Coach Intelligence</span>
+        </div>
+        <h2 class="sec-h rev">Coaches<br>Finally Get<br>Data.</h2>
+        <p class="sec-sub rev d1" style="margin-bottom:28px;">After every class, members log which exercises gave them trouble. Coaches log floor observations in 2 taps. Six months in, you have something no whiteboard gym ever had.</p>
+        <div class="benefit-list rev d2">
+          <div class="bi"><span class="bi-icon">📈</span><div><div class="bi-title">Struggle trends</div><div class="bi-desc">See which skill areas your class is collectively weakest in. Program to address it.</div></div></div>
+          <div class="bi"><span class="bi-icon">🚨</span><div><div class="bi-title">At-risk alerts</div><div class="bi-desc">Flagged when attendance drops or struggle scores spike. Intervene before they quit.</div></div></div>
+          <div class="bi"><span class="bi-icon">✍️</span><div><div class="bi-title">Personal coaching at scale</div><div class="bi-desc">Message individual athletes. They see it in their app. Build real coach-member relationships even with 100+ members.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MEMBER EXPERIENCE -->
+<section class="s-cream pad">
+  <div class="container">
+    <div class="mem-inner">
+      <div>
+        <div class="sec-row rev">
+          <span class="sec-num">05</span>
+          <span class="sec-label">Member Experience</span>
+        </div>
+        <h2 class="sec-h rev">Athletes Who<br>See Their<br>Progress Stay.</h2>
+        <p class="sec-sub rev d1" style="margin-bottom:28px;">No app download. No password. Tap a name on a tablet and instantly see streak, rank, and progress. Every class logged. Every PR tracked.</p>
+        <div class="benefit-list rev d2">
+          <div class="bi"><span class="bi-icon">🔥</span><div><div class="bi-title">Streak tracking</div><div class="bi-desc">Consecutive weeks with a check-in. Milestone badges at 4, 8, 12, 26, and 52 weeks.</div></div></div>
+          <div class="bi"><span class="bi-icon">🏅</span><div><div class="bi-title">Points &amp; 25 badge types</div><div class="bi-desc">Attendance, performance, and community badges. Monthly resets keep competition fresh.</div></div></div>
+          <div class="bi"><span class="bi-icon">📊</span><div><div class="bi-title">Progress charts</div><div class="bi-desc">Pull-up count over 3 months. Best lap times. The chart that shows the work paying off.</div></div></div>
+        </div>
+      </div>
+      <div class="rev d1">
+        <div class="mem-phone">
+          <div class="mem-greet">Hey, <span class="mn">Maya</span></div>
+          <div class="mem-stats">
+            <div class="ms"><div class="ms-val streak">7 🔥</div><div class="ms-lbl">Week Streak</div></div>
+            <div class="ms"><div class="ms-val pts">50</div><div class="ms-lbl">This Month</div></div>
+            <div class="ms"><div class="ms-val rank">#4</div><div class="ms-lbl">Month Rank</div></div>
+          </div>
+          <div class="prog-box">
+            <div class="prog-head">
+              <span class="prog-title">🏋 Pull Up Progress</span>
+              <span class="prog-delta">▲ 100% since start</span>
+            </div>
+            <div class="mini-chart">
+              <svg viewBox="0 0 260 44" preserveAspectRatio="none">
+                <defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0891B2" stop-opacity="0.2"/><stop offset="100%" stop-color="#0891B2" stop-opacity="0"/></linearGradient></defs>
+                <path d="M0 40 L60 32 L120 22 L185 12 L260 2" fill="none" stroke="#0891B2" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M0 40 L60 32 L120 22 L185 12 L260 2 L260 44 L0 44Z" fill="url(#cg)"/>
+                <circle cx="0" cy="40" r="2.5" fill="#0891B2"/>
+                <circle cx="60" cy="32" r="2.5" fill="#0891B2"/>
+                <circle cx="120" cy="22" r="2.5" fill="#0891B2"/>
+                <circle cx="185" cy="12" r="2.5" fill="#0891B2"/>
+                <circle cx="260" cy="2" r="3.5" fill="#0891B2" stroke="var(--cream)" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="chart-labels"><span>5 reps</span><span>7</span><span>8</span><span>9</span><span>10 reps</span></div>
+          </div>
+          <div class="coach-note">
+            <div class="cn-from">Coach Reyes · Just now</div>
+            <div class="cn-text">"Pull-ups went 5 → 10 in eight weeks. The work is showing."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NICHE (BLACK) -->
+<section class="s-black pad">
+  <div class="container">
+    <div class="niche-inner">
+      <div>
+        <div class="sec-row rev" style="border-bottom-color:rgba(255,255,255,0.12);">
+          <span class="sec-num" style="color:rgba(255,255,255,0.25);">06</span>
+          <span class="sec-label">The Niche</span>
+        </div>
+        <h2 class="sec-h sec-h-inv rev">Built for<br>the Obstacle<br>Community.</h2>
+        <p class="sec-sub sec-sub-inv rev d1" style="margin-bottom:18px;">Mindbody is for yoga studios. Wodify is for CrossFit. ForgeGrip is built for gyms where athletes train to conquer walls, ropes, obstacles, and races.</p>
+        <p class="sec-sub sec-sub-inv rev d2">The skill areas (Balance, Grip, Upper Body, Lower Body, Endurance, Technique), the exercise library (warped wall, salmon ladder, rope climb, cliffhanger), and the community culture — all tuned for how obstacle gyms actually operate.</p>
+      </div>
+      <div class="niche-cards rev d1">
+        <div class="nc"><div class="nc-icon">🥷</div><div class="nc-title">Ninja Warrior Gyms</div><div class="nc-desc">Skill progression, obstacle-specific tracking, Wall of Records for gym bests. Built for how ANW athletes train.</div></div>
+        <div class="nc"><div class="nc-icon">🏔️</div><div class="nc-title">OCR Training Facilities</div><div class="nc-desc">Spartan, Tough Mudder, DEKA FIT prep. Event calendar, race announcements, endurance tracking built in.</div></div>
+        <div class="nc"><div class="nc-icon">🧗</div><div class="nc-title">Obstacle Fitness Gyms</div><div class="nc-desc">Functional movement, grip strength, agility. Program mixed-skill workouts with a library built for it.</div></div>
+        <div class="nc"><div class="nc-icon">👤</div><div class="nc-title">Personal Trainers</div><div class="nc-desc">Coach multiple clients with the same intelligence layer. Track progress, send notes, log observations.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="s-cream pad" id="pricing">
+  <div class="container">
+    <div class="sec-row rev">
+      <span class="sec-num">07</span>
+      <span class="sec-label">Pricing</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:end;margin-bottom:0">
+      <h2 class="sec-h rev" style="margin-bottom:0">Simple.<br>No Surprises.</h2>
+      <p class="sec-sub rev d1">Early access pricing locked for founding gyms. Launch pricing will be higher.</p>
+    </div>
+    <div class="price-grid rev d2">
+      <div class="price-cell">
+        <div class="price-tier">Starter</div>
+        <div class="price-amt" style="font-size:28px;letter-spacing:-0.01em;line-height:1.2;">Founding<br>Member</div>
+        <div class="price-period">Pricing revealed to early members</div>
+        <ul class="price-feats">
+          <li>1 coach account</li>
+          <li>Up to 50 members</li>
+          <li>2 display screens</li>
+          <li>Workout builder (300+ exercises)</li>
+          <li>Check-in kiosk</li>
+          <li>Leaderboard &amp; Wall of Records</li>
+        </ul>
+        <a href="#waitlist" class="btn-price-out">Join Waitlist</a>
+      </div>
+      <div class="price-cell featured">
+        <div class="price-best">Most Popular</div>
+        <div class="price-tier">Growth</div>
+        <div class="price-amt" style="font-size:28px;letter-spacing:-0.01em;line-height:1.2;color:var(--volt);">Founding<br>Member</div>
+        <div class="price-period">Pricing revealed to early members</div>
+        <ul class="price-feats">
+          <li>5 coach accounts</li>
+          <li>Up to 200 members</li>
+          <li>5 display screens</li>
+          <li>Everything in Starter</li>
+          <li>Coach intelligence &amp; class heatmap</li>
+          <li>Photo gallery</li>
+          <li>Events &amp; announcements</li>
+        </ul>
+        <a href="#waitlist" class="btn-price-feat">Join Waitlist</a>
+      </div>
+      <div class="price-cell">
+        <div class="price-tier">Unlimited</div>
+        <div class="price-amt" style="font-size:28px;letter-spacing:-0.01em;line-height:1.2;">Founding<br>Member</div>
+        <div class="price-period">Pricing revealed to early members</div>
+        <ul class="price-feats">
+          <li>Unlimited coaches</li>
+          <li>Unlimited members</li>
+          <li>Unlimited screens</li>
+          <li>Everything in Growth</li>
+          <li>Priority support</li>
+          <li>Onboarding call included</li>
+        </ul>
+        <a href="#waitlist" class="btn-price-out">Join Waitlist</a>
+      </div>
+    </div>
+    <div class="price-hw">Hardware not included · Each display needs a $35 Fire TV Stick or any browser-capable device</div>
+  </div>
+</section>
+
+<!-- WAITLIST (TEAL) -->
+<section class="s-teal" id="waitlist">
+  <div class="container">
+    <div class="wl-inner">
+      <div style="font-family:var(--font-m);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(10,10,10,0.45);margin-bottom:16px;" class="rev">Early Access</div>
+      <h2 class="wl-h rev">Be First to<br>Forge Your Gym.</h2>
+      <p class="wl-sub rev d1">We're onboarding founding gyms now. Early access members get locked-in pricing and direct input on the roadmap.</p>
+      <div class="rev d2" style="display:flex;flex-direction:column;align-items:center;gap:0;">
+        <div class="role-toggle">
+          <button class="role-btn active" onclick="setRole(this,'gym')">🏋 Gym Owner / Coach</button>
+          <button class="role-btn" onclick="setRole(this,'athlete')">🥷 Individual Athlete</button>
+        </div>
+        <form id="wl-form" style="width:100%" onsubmit="handleSubmit(event)">
+          <input type="hidden" name="access_key" value="1d5e3581-a12f-4765-93b8-7c4c04a13dd1">
+          <input type="hidden" name="subject" id="wl-subject" value="ForgeGrip Waitlist — Gym Owner">
+          <input type="hidden" name="from_name" value="ForgeGrip Waitlist">
+          <input type="hidden" name="botcheck" style="display:none">
+          <div class="wl-form">
+            <input type="text" name="name" class="wl-input" placeholder="Your name" required id="wl-name" style="border-right:1px solid var(--cream2);">
+            <input type="email" name="email" class="wl-input" placeholder="your@email.com" required id="wl-email">
+            <button type="submit" class="wl-submit">Join →</button>
+          </div>
+        </form>
+        <div class="wl-ok" id="wl-ok">✓ You're on the list. We'll be in touch when ForgeGrip is ready for your gym.</div>
+        <div class="wl-note rev d3">No spam. No pressure. Just early access when we're ready.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-inner">
+      <div>
+        <a href="#" class="foot-logo">Forge<span class="grip">Grip</span><span class="logo-dot"></span></a>
+        <div class="foot-copy">© 2026 ForgeGrip · Built for obstacle athletes</div>
+      </div>
+      <div class="foot-links">
+        <a href="#features">Features</a>
+        <a href="#displays">Displays</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#waitlist">Waitlist</a>
+        <a href="mailto:hello@forgegrip.app">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll behavior
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Live clock
+  function tick() {
+    const d = new Date();
+    let h = d.getHours(), m = d.getMinutes().toString().padStart(2,'0');
+    const ap = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    const el = document.getElementById('live-clock');
+    if (el) el.textContent = `${h}:${m} ${ap}`;
+  }
+  tick(); setInterval(tick, 30000);
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.rev').forEach(el => obs.observe(el));
+
+  // Heatmap bar animation
+  const hmObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.hm-fill').forEach((f, i) => {
+          setTimeout(() => { f.style.width = f.dataset.w || '0%'; }, i * 100);
+        });
+        hmObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  const coachCards = document.querySelector('.cc-cards');
+  if (coachCards) hmObs.observe(coachCards);
+
+  // Role toggle — updates the email subject so each signup is tagged in your inbox
+  function setRole(btn, role) {
+    document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const label = role === 'gym' ? 'Gym Owner' : 'Individual Athlete';
+    document.getElementById('wl-subject').value = `ForgeGrip Waitlist — ${label}`;
+  }
+
+  // Waitlist submit via web3forms
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const form = document.getElementById('wl-form');
+    const btn  = form.querySelector('.wl-submit');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+
+    try {
+      const res  = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: new FormData(form),
+      });
+      const data = await res.json();
+      if (data.success) {
+        form.style.display = 'none';
+        document.getElementById('wl-ok').style.display = 'block';
+      } else {
+        btn.textContent = 'Try again →';
+        btn.disabled = false;
+      }
+    } catch {
+      btn.textContent = 'Try again →';
+      btn.disabled = false;
+    }
+  }
+</script>
+</body>
+</html>
