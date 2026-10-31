@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Single-ink black: outlined so both forms stay legible in one color -->
+  <circle cx="82" cy="102" r="52" fill="none" stroke="#0A0A0A" stroke-width="10"/>
+  <circle cx="126" cy="86" r="37" fill="none" stroke="#0A0A0A" stroke-width="10"/>
+  <circle cx="158" cy="52" r="6" fill="#0A0A0A"/>
+</svg>

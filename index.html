@@ -4,557 +4,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ForgeGrip — The Gym OS for Obstacle Athletes</title>
+
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <meta name="description" content="ForgeGrip is the gym operating system built for obstacle sport facilities. Coaches publish the day's workout in 30 seconds. Every screen updates live.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://forgegrip.app/">
+  <meta property="og:title" content="ForgeGrip — The Gym OS for Obstacle Athletes">
+  <meta property="og:description" content="Coaches publish the day's workout in 30 seconds. Every screen updates live. Athletes track, compete, and improve.">
+  <meta property="og:image" content="https://forgegrip.app/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ForgeGrip — The Gym OS for Obstacle Athletes">
+  <meta name="twitter:description" content="Coaches publish the day's workout in 30 seconds. Every screen updates live. Athletes track, compete, and improve.">
+  <meta name="twitter:image" content="https://forgegrip.app/og-image.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,700;0,900;1,900&family=Epilogue:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --black:   #0A0A0A;
-      --cream:   #F0EAE0;
-      --cream2:  #E8E0D4;
-      --white:   #FAFAF8;
-      --gray:    #F4F0EB;
-      --teal:    #06B6D4;
-      --teal-d:  #0891B2;
-      --volt:    #A3E635;
-      --volt-d:  #84CC16;
-      --gold:    #D97706;
-      --red:     #DC2626;
-      --ink:     #1A1A1A;
-      --muted:   #6B6058;
-      --dim:     #9B8F85;
-      --rule:    #0A0A0A;
-      --font-d:  'Barlow', sans-serif;
-      --font-b:  'Epilogue', sans-serif;
-      --font-m:  'DM Mono', monospace;
-    }
-
-    html { scroll-behavior: smooth; }
-    body { font-family: var(--font-b); color: var(--ink); background: var(--white); overflow-x: hidden; }
-
-    .container { max-width: 1160px; margin: 0 auto; padding: 0 32px; }
-
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      padding: 0; transition: background 0.3s, border-color 0.3s;
-      border-bottom: 1px solid transparent;
-    }
-    nav.scrolled { background: var(--white); border-bottom-color: var(--cream2); }
-    .nav-inner {
-      display: flex; align-items: center; justify-content: space-between;
-      max-width: 1160px; margin: 0 auto; padding: 18px 32px;
-    }
-    .logo {
-      font-family: var(--font-d); font-weight: 900; font-size: 22px;
-      letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none;
-      color: var(--white); transition: color 0.3s; display: flex; align-items: center; gap: 2px;
-    }
-    nav.scrolled .logo { color: var(--ink); }
-    .logo-grip { color: var(--teal); }
-    .logo-dot {
-      width: 6px; height: 6px; background: var(--volt); border-radius: 50%;
-      margin-left: 3px; display: inline-block;
-      animation: dotblink 2s ease-in-out infinite;
-    }
-    @keyframes dotblink { 0%,100%{opacity:1;} 50%{opacity:0.25;} }
-
-    .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; }
-    .nav-links a {
-      font-family: var(--font-b); font-size: 13px; font-weight: 500;
-      text-decoration: none; color: rgba(255,255,255,0.6); transition: color 0.3s;
-      letter-spacing: 0.02em;
-    }
-    nav.scrolled .nav-links a { color: var(--muted); }
-    .nav-links a:hover { color: var(--white); }
-    nav.scrolled .nav-links a:hover { color: var(--ink); }
-
-    .btn {
-      display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
-      font-family: var(--font-b); font-weight: 600; text-decoration: none; border: none;
-      transition: all 0.18s; letter-spacing: 0.01em;
-    }
-    .btn-nav {
-      padding: 9px 18px; border-radius: 4px;
-      background: var(--volt); color: var(--black); font-size: 13px; font-weight: 700;
-    }
-    .btn-nav:hover { background: #BEF264; transform: translateY(-1px); }
-    .btn-primary {
-      padding: 15px 32px; background: var(--volt); color: var(--black);
-      font-size: 15px; font-weight: 700; border-radius: 4px;
-    }
-    .btn-primary:hover { background: #BEF264; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(163,230,53,0.35); }
-    .btn-ghost {
-      padding: 14px 30px; background: transparent; color: var(--white);
-      font-size: 15px; font-weight: 600; border-radius: 4px; border: 1.5px solid rgba(255,255,255,0.3);
-    }
-    .btn-ghost:hover { border-color: rgba(255,255,255,0.8); }
-    .btn-dark {
-      padding: 14px 30px; background: var(--black); color: var(--white);
-      font-size: 15px; font-weight: 700; border-radius: 4px;
-    }
-    .btn-dark:hover { background: #222; transform: translateY(-1px); }
-    .btn-teal {
-      padding: 15px 32px; background: var(--teal); color: var(--black);
-      font-size: 15px; font-weight: 700; border-radius: 4px;
-    }
-    .btn-teal:hover { background: #22D3EE; transform: translateY(-2px); }
-
-    /* ── HERO (BLACK) ── */
-    .hero {
-      background: var(--black); min-height: 100vh;
-      display: flex; align-items: center; padding: 100px 0 80px;
-      position: relative; overflow: hidden;
-    }
-    /* Subtle grid */
-    .hero::before {
-      content: ''; position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-      background-size: 72px 72px;
-    }
-    .hero-inner {
-      display: grid; grid-template-columns: 1fr 0.85fr;
-      gap: 72px; align-items: center; position: relative; z-index: 1;
-    }
-    .hero-tag {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--teal); margin-bottom: 28px;
-    }
-    .tag-pill {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 5px 12px; border: 1px solid rgba(6,182,212,0.35);
-      border-radius: 2px; background: rgba(6,182,212,0.07);
-    }
-    .live-dot {
-      width: 6px; height: 6px; border-radius: 50%; background: var(--volt);
-      animation: livepulse 1.4s ease-in-out infinite;
-    }
-    @keyframes livepulse { 0%,100%{box-shadow:0 0 0 0 rgba(163,230,53,0.7);} 60%{box-shadow:0 0 0 5px rgba(163,230,53,0);} }
-
-    h1.hero-h {
-      font-family: var(--font-d); font-weight: 900;
-      font-size: clamp(56px, 8vw, 104px); line-height: 0.9;
-      text-transform: uppercase; letter-spacing: -0.02em; margin-bottom: 28px;
-      animation: riseIn 0.7s cubic-bezier(0.16,1,0.3,1) both;
-    }
-    .hero-h .white { color: var(--cream); }
-    .hero-h .teal  { color: var(--teal); }
-
-    .hero-sub {
-      font-size: 17px; color: rgba(240,234,224,0.65); line-height: 1.7;
-      max-width: 460px; margin-bottom: 36px;
-      animation: riseIn 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s both;
-    }
-    .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 52px; animation: riseIn 0.7s ease 0.18s both; }
-    .hero-stats { display: flex; gap: 0; animation: riseIn 0.7s ease 0.26s both; }
-    .hstat {
-      padding: 16px 24px; border: 1px solid rgba(255,255,255,0.1);
-      border-right: none; display: flex; flex-direction: column; gap: 4px;
-    }
-    .hstat:last-child { border-right: 1px solid rgba(255,255,255,0.1); }
-    .hstat-n {
-      font-family: var(--font-d); font-weight: 900; font-size: 26px;
-      color: var(--cream); letter-spacing: -0.02em; line-height: 1;
-    }
-    .hstat-l { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(240,234,224,0.4); }
-
-    @keyframes riseIn { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
-    @keyframes slideR { from{opacity:0;transform:translateX(40px);} to{opacity:1;transform:translateX(0);} }
-
-    /* ── HERO VISUAL — PAPER CARD ── */
-    .hero-visual { animation: slideR 0.8s cubic-bezier(0.16,1,0.3,1) 0.2s both; position: relative; }
-
-    .paper-card {
-      background: var(--cream); border: 1.5px solid var(--cream2);
-      box-shadow: 12px 12px 0 rgba(255,255,255,0.08), 0 32px 64px rgba(0,0,0,0.6);
-      overflow: hidden;
-    }
-    .pc-header {
-      background: var(--black); padding: 14px 20px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .pc-title-wrap { display: flex; flex-direction: column; gap: 2px; }
-    .pc-date { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
-    .pc-title { font-family: var(--font-d); font-weight: 900; font-size: 17px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--cream); }
-    .pc-title em { color: var(--teal); font-style: normal; }
-    .live-badge {
-      display: flex; align-items: center; gap: 5px;
-      padding: 4px 10px; background: rgba(163,230,53,0.15);
-      border: 1px solid rgba(163,230,53,0.4);
-      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--volt);
-    }
-    .pc-body { padding: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: var(--cream); }
-    .pc-block { background: var(--white); border: 1px solid var(--cream2); padding: 12px; }
-    .pb-title {
-      font-family: var(--font-d); font-weight: 900; font-size: 10px; text-transform: uppercase;
-      letter-spacing: 0.12em; margin-bottom: 9px; padding-bottom: 7px;
-      border-bottom: 1px solid var(--cream2);
-    }
-    .pb-title.ct { color: var(--teal); }
-    .pb-title.cp { color: #8B5CF6; }
-    .pb-title.co { color: #EA580C; }
-    .pb-title.cg { color: var(--volt-d); }
-    .pb-ex { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 11px; }
-    .pb-ex:last-child { border-bottom: none; }
-    .pb-en { color: var(--ink); font-weight: 500; }
-    .pb-rx { font-family: var(--font-m); font-size: 10px; color: var(--muted); }
-    .pc-footer {
-      padding: 9px 16px; background: var(--black);
-      display: flex; justify-content: space-between; align-items: center;
-      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.08em;
-    }
-    .pcf-l { color: rgba(255,255,255,0.3); }
-    .pcf-r { display: flex; align-items: center; gap: 5px; color: var(--volt); }
-
-    /* Floating cards */
-    .fc {
-      position: absolute; background: var(--black);
-      border: 1px solid rgba(255,255,255,0.12);
-      padding: 12px 14px;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
-    }
-    .fc-phone { bottom: -20px; left: -28px; width: 166px; animation: floatA 4s ease-in-out infinite; }
-    .fc-lb    { top: -16px; right: -20px; width: 154px; animation: floatA 4s ease-in-out 2.2s infinite; }
-    @keyframes floatA { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
-
-    .fc-lbl { font-family: var(--font-m); font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
-    .pub-btn {
-      background: var(--teal); color: var(--black);
-      font-family: var(--font-d); font-weight: 900; font-size: 10px;
-      text-transform: uppercase; letter-spacing: 0.06em;
-      padding: 7px 10px; text-align: center;
-      animation: pubpulse 2s ease-in-out infinite;
-    }
-    @keyframes pubpulse { 0%,100%{box-shadow:0 0 0 0 rgba(6,182,212,0.5);} 50%{box-shadow:0 0 0 7px rgba(6,182,212,0);} }
-    .ph-rows { margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
-    .ph-row { display: flex; justify-content: space-between; font-size: 10px; padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.07); color: rgba(255,255,255,0.5); }
-
-    .lb-head { font-family: var(--font-m); font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 9px; }
-    .lb-row { display: flex; align-items: center; gap: 7px; padding: 3px 0; font-size: 11px; }
-    .lb-r { font-family: var(--font-m); font-size: 9px; width: 14px; color: rgba(255,255,255,0.3); }
-    .lb-r.g { color: var(--gold); } .lb-r.s { color: #94A3B8; } .lb-r.b { color: #B45309; }
-    .lb-n { flex: 1; color: rgba(255,255,255,0.85); font-weight: 500; font-size: 11px; }
-    .lb-p { font-family: var(--font-m); font-size: 9px; color: var(--teal); }
-
-    /* ── STATS STRIP ── */
-    .stats-strip {
-      background: var(--cream); border-bottom: 1.5px solid var(--ink);
-      padding: 0; overflow: hidden;
-    }
-    .ss-inner { display: flex; }
-    .ss-item {
-      flex: 1; padding: 28px 32px; border-right: 1.5px solid var(--ink);
-      display: flex; flex-direction: column; gap: 4px;
-    }
-    .ss-item:last-child { border-right: none; }
-    .ss-num { font-family: var(--font-d); font-weight: 900; font-size: 40px; line-height: 1; letter-spacing: -0.03em; }
-    .ss-num.ct { color: var(--teal-d); } .ss-num.cv { color: var(--volt-d); } .ss-num.cg { color: var(--gold); }
-    .ss-lbl { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
-
-    /* ── SECTION COMMON ── */
-    section { position: relative; }
-    .s-cream { background: var(--cream); }
-    .s-white { background: var(--white); }
-    .s-black { background: var(--black); }
-    .s-teal  { background: var(--teal); }
-    .pad { padding: 96px 0; }
-    .pad-sm { padding: 72px 0; }
-
-    .sec-row {
-      display: flex; align-items: baseline; gap: 16px;
-      border-bottom: 1.5px solid var(--ink); padding-bottom: 14px; margin-bottom: 52px;
-    }
-    .sec-num { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
-    .sec-label { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal-d); }
-
-    .sec-h {
-      font-family: var(--font-d); font-weight: 900;
-      font-size: clamp(38px, 5vw, 64px); line-height: 0.94;
-      text-transform: uppercase; letter-spacing: -0.02em; margin-bottom: 18px;
-    }
-    .sec-sub { font-size: 16px; color: var(--muted); line-height: 1.7; max-width: 520px; }
-    .sec-h-inv { color: var(--cream); }
-    .sec-sub-inv { color: rgba(240,234,224,0.55); }
-
-    /* scroll reveal */
-    .rev { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
-    .rev.on { opacity: 1; transform: none; }
-    .d1{transition-delay:.1s;} .d2{transition-delay:.2s;} .d3{transition-delay:.3s;}
-
-    /* ── PROBLEM ── */
-    .prob-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      border: 1.5px solid var(--ink); margin-top: 44px;
-    }
-    .prob-cell {
-      padding: 32px 28px; border-right: 1.5px solid var(--ink); position: relative;
-    }
-    .prob-cell:last-child { border-right: none; }
-    .prob-x {
-      position: absolute; top: 14px; right: 14px;
-      font-family: var(--font-m); font-size: 9px; letter-spacing: 0.08em;
-      text-transform: uppercase; color: var(--red); opacity: 0.7;
-    }
-    .prob-icon { font-size: 24px; margin-bottom: 14px; }
-    .prob-title { font-family: var(--font-d); font-weight: 900; font-size: 20px; text-transform: uppercase; letter-spacing: -0.01em; margin-bottom: 10px; line-height: 1.1; }
-    .prob-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
-
-    /* ── FEATURES ── */
-    .feat-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      border: 1.5px solid var(--ink);
-    }
-    .feat-cell {
-      padding: 32px 28px; border-right: 1.5px solid var(--ink);
-      border-bottom: 1.5px solid var(--ink);
-      position: relative; overflow: hidden; transition: background 0.2s;
-    }
-    .feat-cell:nth-child(3n) { border-right: none; }
-    .feat-cell:nth-child(4), .feat-cell:nth-child(5), .feat-cell:nth-child(6) { border-bottom: none; }
-    .feat-cell:hover { background: var(--gray); }
-    .feat-num { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.14em; color: var(--dim); margin-bottom: 20px; }
-    .feat-icon { font-size: 26px; margin-bottom: 13px; display: block; }
-    .feat-title { font-family: var(--font-d); font-weight: 900; font-size: 19px; text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05; margin-bottom: 10px; }
-    .feat-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
-    .feat-tag {
-      display: inline-block; margin-top: 14px; padding: 3px 8px;
-      border: 1px solid var(--cream2); background: var(--cream);
-      font-family: var(--font-m); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim);
-    }
-    /* colored left strip on each feature */
-    .feat-cell::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--fc, var(--teal)); transform: scaleY(0); transform-origin: top; transition: transform 0.3s; }
-    .feat-cell:hover::before { transform: scaleY(1); }
-
-    /* ── DISPLAY SECTION ── */
-    .disp-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 72px; align-items: center; }
-    .check-list { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
-    .ci { display: flex; align-items: start; gap: 12px; font-size: 14px; color: var(--muted); line-height: 1.5; }
-    .ci strong { color: var(--ink); }
-    .ci-mark { flex-shrink: 0; width: 20px; height: 20px; background: var(--volt); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--black); margin-top: 1px; }
-
-    /* TV Mockup */
-    .tv-wrap { position: relative; }
-    .tv-frame {
-      background: #101010; border: 2px solid #1e1e1e;
-      padding: 10px; box-shadow: 0 40px 80px rgba(0,0,0,0.35);
-    }
-    .tv-screen { background: var(--cream); overflow: hidden; }
-    .tv-h {
-      background: var(--black); padding: 10px 14px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .tv-title { font-family: var(--font-d); font-weight: 900; font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--cream); }
-    .tv-title em { color: var(--teal); font-style: normal; }
-    .tv-clock { font-family: var(--font-m); font-size: 14px; color: var(--cream); }
-    .tv-body { padding: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
-    .tv-block { background: var(--white); border: 1px solid var(--cream2); padding: 10px; }
-    .tv-bt { font-family: var(--font-d); font-weight: 900; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 7px; padding-bottom: 6px; border-bottom: 1px solid var(--cream2); }
-    .tv-bt.ct{color:var(--teal-d);} .tv-bt.co{color:#EA580C;} .tv-bt.cp{color:#7C3AED;} .tv-bt.cg{color:var(--volt-d);}
-    .tv-ex { display: flex; justify-content: space-between; font-size: 10px; padding: 2.5px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
-    .tv-ex:last-child { border-bottom: none; }
-    .tv-en { color: var(--ink); font-weight: 500; }
-    .tv-er { font-family: var(--font-m); font-size: 9px; color: var(--muted); }
-    .tv-foot { background: var(--black); padding: 7px 12px; display: flex; justify-content: space-between; align-items: center; }
-    .tv-fl { font-family: var(--font-m); font-size: 7px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); }
-    .tv-fr { display: flex; align-items: center; gap: 4px; font-family: var(--font-m); font-size: 7px; letter-spacing: 0.12em; color: var(--volt); }
-    .tv-note { margin-top: 10px; text-align: center; font-family: var(--font-m); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); }
-
-    /* ── COACH SECTION ── */
-    .coach-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 72px; align-items: start; }
-    .cc-cards { display: flex; flex-direction: column; gap: 10px; }
-    .cc {
-      background: var(--white); border: 1.5px solid var(--cream2);
-      padding: 18px; transition: border-color 0.2s, transform 0.2s;
-    }
-    .cc:hover { border-color: var(--ink); transform: translateX(3px); }
-    .cc-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 11px; }
-    .cc-t { font-family: var(--font-d); font-weight: 900; font-size: 14px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--ink); }
-    .badge { padding: 3px 7px; font-family: var(--font-m); font-size: 8px; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid; }
-    .badge-r { color: var(--red); border-color: var(--red); background: rgba(220,38,38,0.06); }
-    .badge-g { color: var(--volt-d); border-color: var(--volt-d); background: rgba(132,204,22,0.08); }
-    .badge-b { color: var(--teal-d); border-color: var(--teal-d); background: rgba(8,145,178,0.07); }
-
-    .mem-rows { display: flex; flex-direction: column; gap: 7px; }
-    .mr { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: var(--cream); }
-    .mr-name { font-weight: 600; font-size: 13px; color: var(--ink); }
-    .mr-areas { font-size: 10px; color: var(--muted); margin-top: 1px; }
-
-    .heatmap { display: flex; flex-direction: column; gap: 7px; }
-    .hm-row { display: grid; grid-template-columns: 76px 1fr 18px; gap: 8px; align-items: center; }
-    .hm-label { font-family: var(--font-m); font-size: 9px; color: var(--muted); }
-    .hm-track { height: 4px; background: var(--cream2); overflow: hidden; }
-    .hm-fill { height: 100%; width: 0; background: var(--hc, var(--teal)); transition: width 1.4s cubic-bezier(0.16,1,0.3,1); }
-    .hm-val { font-family: var(--font-m); font-size: 9px; text-align: right; color: var(--hc, var(--muted)); }
-
-    .chips { display: flex; gap: 5px; flex-wrap: wrap; }
-    .chip { padding: 5px 9px; border: 1px solid var(--cream2); font-size: 10px; color: var(--muted); background: var(--cream); cursor: default; }
-    .chip.on { border-color: var(--teal-d); color: var(--teal-d); background: rgba(8,145,178,0.06); }
-
-    .msg-box { background: var(--cream); border-left: 3px solid var(--teal); padding: 12px 14px; }
-    .msg-from { font-family: var(--font-m); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal-d); margin-bottom: 5px; }
-    .msg-text { font-size: 13px; color: var(--ink); line-height: 1.55; font-style: italic; }
-    .msg-note { font-family: var(--font-m); font-size: 8px; color: var(--dim); margin-top: 6px; }
-
-    .benefit-list { display: flex; flex-direction: column; gap: 16px; }
-    .bi { display: flex; gap: 13px; align-items: start; }
-    .bi-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
-    .bi-title { font-family: var(--font-d); font-weight: 900; font-size: 16px; text-transform: uppercase; letter-spacing: 0.01em; margin-bottom: 3px; }
-    .bi-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
-
-    /* ── MEMBER PHONE ── */
-    .mem-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
-    .mem-phone {
-      background: var(--cream); border: 1.5px solid var(--ink);
-      padding: 22px; max-width: 300px; margin: 0 auto;
-      box-shadow: 8px 8px 0 var(--ink);
-    }
-    .mem-greet { font-family: var(--font-d); font-weight: 900; font-size: 28px; text-transform: uppercase; letter-spacing: -0.01em; margin-bottom: 16px; color: var(--ink); }
-    .mem-greet .mn { color: var(--teal-d); }
-    .mem-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 14px; }
-    .ms { background: var(--white); border: 1px solid var(--cream2); padding: 11px 8px; text-align: center; }
-    .ms-val { font-family: var(--font-d); font-weight: 900; font-size: 22px; line-height: 1; margin-bottom: 4px; }
-    .ms-val.streak { color: var(--gold); }
-    .ms-val.pts { color: var(--volt-d); }
-    .ms-val.rank { color: var(--teal-d); }
-    .ms-lbl { font-family: var(--font-m); font-size: 7px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); }
-    .prog-box { background: var(--white); border: 1px solid var(--cream2); padding: 14px; margin-bottom: 10px; }
-    .prog-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .prog-title { font-size: 12px; font-weight: 600; color: var(--ink); }
-    .prog-delta { font-family: var(--font-m); font-size: 10px; color: var(--volt-d); }
-    .mini-chart { height: 44px; }
-    .mini-chart svg { width: 100%; height: 100%; }
-    .chart-labels { display: flex; justify-content: space-between; font-family: var(--font-m); font-size: 8px; color: var(--dim); margin-top: 3px; }
-    .coach-note { border-left: 3px solid var(--teal); padding: 10px 12px; background: var(--white); }
-    .cn-from { font-family: var(--font-m); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal-d); margin-bottom: 4px; }
-    .cn-text { font-size: 12px; color: var(--ink); line-height: 1.5; font-style: italic; }
-
-    /* ── NICHE (BLACK) ── */
-    .niche-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
-    .niche-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .nc {
-      border: 1px solid rgba(255,255,255,0.12); padding: 22px 18px;
-      transition: border-color 0.2s, transform 0.2s; background: rgba(255,255,255,0.03);
-    }
-    .nc:hover { border-color: var(--volt); transform: translateY(-3px); }
-    .nc-icon { font-size: 24px; margin-bottom: 10px; }
-    .nc-title { font-family: var(--font-d); font-weight: 900; font-size: 15px; text-transform: uppercase; letter-spacing: 0.01em; margin-bottom: 6px; color: var(--cream); line-height: 1.15; }
-    .nc-desc { font-size: 12px; color: rgba(240,234,224,0.45); line-height: 1.55; }
-
-    /* ── PRICING ── */
-    .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1.5px solid var(--ink); margin-top: 52px; }
-    .price-cell {
-      padding: 36px 28px; border-right: 1.5px solid var(--ink); position: relative;
-    }
-    .price-cell:last-child { border-right: none; }
-    .price-cell.featured { background: var(--black); }
-    .price-best {
-      display: inline-block; margin-bottom: 10px; padding: 3px 10px;
-      background: var(--volt); color: var(--black);
-      font-family: var(--font-m); font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500;
-    }
-    .price-tier { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
-    .price-cell.featured .price-tier { color: rgba(255,255,255,0.4); }
-    .price-amt { font-family: var(--font-d); font-weight: 900; font-size: 52px; line-height: 1; letter-spacing: -0.03em; margin-bottom: 3px; }
-    .price-cell.featured .price-amt { color: var(--cream); }
-    .price-amt sup { font-size: 22px; font-weight: 700; vertical-align: super; }
-    .price-period { font-size: 12px; color: var(--muted); margin-bottom: 24px; }
-    .price-cell.featured .price-period { color: rgba(255,255,255,0.35); }
-    .price-feats { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 28px; }
-    .price-feats li { display: flex; align-items: start; gap: 9px; font-size: 13px; color: var(--muted); line-height: 1.4; }
-    .price-feats li::before { content: '—'; color: var(--teal-d); font-weight: 700; flex-shrink: 0; font-family: var(--font-m); }
-    .price-cell.featured .price-feats li { color: rgba(240,234,224,0.5); }
-    .price-cell.featured .price-feats li::before { color: var(--volt); }
-    .btn-price-out { width: 100%; justify-content: center; padding: 12px; background: transparent; border: 1.5px solid var(--ink); color: var(--ink); font-size: 13px; font-weight: 700; font-family: var(--font-b); cursor: pointer; transition: all 0.18s; border-radius: 0; letter-spacing: 0.02em; text-decoration: none; display: flex; align-items: center; }
-    .btn-price-out:hover { background: var(--ink); color: var(--white); }
-    .btn-price-feat { width: 100%; justify-content: center; padding: 12px; background: var(--volt); border: 1.5px solid var(--volt); color: var(--black); font-size: 13px; font-weight: 700; font-family: var(--font-b); cursor: pointer; transition: all 0.18s; border-radius: 0; letter-spacing: 0.02em; text-decoration: none; display: flex; align-items: center; }
-    .btn-price-feat:hover { background: #BEF264; }
-    .price-hw { text-align: center; margin-top: 20px; font-family: var(--font-m); font-size: 9px; letter-spacing: 0.09em; color: var(--dim); }
-
-    /* ── WAITLIST (TEAL) ── */
-    .wl-inner { max-width: 560px; margin: 0 auto; text-align: center; padding: 96px 0; }
-    .wl-h { font-family: var(--font-d); font-weight: 900; font-size: clamp(44px, 7vw, 80px); text-transform: uppercase; line-height: 0.93; margin-bottom: 20px; color: var(--black); letter-spacing: -0.02em; }
-    .wl-sub { font-size: 16px; color: rgba(10,10,10,0.6); margin-bottom: 36px; line-height: 1.65; }
-    .role-toggle { display: flex; gap: 0; justify-content: center; margin-bottom: 16px; border: 1.5px solid var(--black); display: inline-flex; }
-    .role-btn {
-      padding: 9px 20px; background: transparent; color: rgba(10,10,10,0.5);
-      font-family: var(--font-b); font-size: 13px; font-weight: 600; cursor: pointer;
-      border: none; border-right: 1.5px solid var(--black); transition: all 0.18s; letter-spacing: 0.01em;
-    }
-    .role-btn:last-child { border-right: none; }
-    .role-btn.active { background: var(--black); color: var(--white); }
-    .wl-form { display: flex; gap: 0; border: 1.5px solid var(--black); margin-top: 16px; }
-    .wl-input {
-      flex: 1; background: var(--white); border: none; padding: 14px 16px;
-      font-family: var(--font-b); font-size: 15px; color: var(--ink); outline: none;
-    }
-    .wl-input::placeholder { color: rgba(10,10,10,0.35); }
-    .wl-submit {
-      padding: 0 28px; background: var(--black); color: var(--white);
-      font-family: var(--font-b); font-size: 14px; font-weight: 700;
-      border: none; cursor: pointer; transition: background 0.18s; white-space: nowrap; letter-spacing: 0.01em;
-    }
-    .wl-submit:hover { background: #222; }
-    .wl-note { font-family: var(--font-m); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(10,10,10,0.4); margin-top: 12px; }
-    .wl-ok { display: none; padding: 14px 20px; background: rgba(10,10,10,0.1); border: 1.5px solid var(--black); font-size: 14px; font-weight: 600; color: var(--black); margin-top: 14px; }
-
-    /* ── FOOTER ── */
-    footer { background: var(--black); border-top: 1.5px solid rgba(255,255,255,0.08); padding: 40px 0; }
-    .foot-inner { display: flex; align-items: center; justify-content: space-between; }
-    .foot-logo { font-family: var(--font-d); font-weight: 900; font-size: 20px; text-transform: uppercase; color: var(--cream); text-decoration: none; letter-spacing: 0.04em; }
-    .foot-logo .grip { color: var(--teal); }
-    .foot-copy { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.08em; color: rgba(255,255,255,0.2); margin-top: 5px; }
-    .foot-links { display: flex; gap: 20px; }
-    .foot-links a { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
-    .foot-links a:hover { color: var(--teal); }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 960px) {
-      .hero-inner, .disp-grid, .coach-grid, .mem-inner, .niche-inner { grid-template-columns: 1fr; }
-      .hero-visual { display: none; }
-      .feat-grid { grid-template-columns: 1fr 1fr; }
-      .feat-cell:nth-child(3n) { border-right: 1.5px solid var(--ink); }
-      .feat-cell:nth-child(2n) { border-right: none; }
-      .feat-cell:nth-child(3), .feat-cell:nth-child(4) { border-bottom: 1.5px solid var(--ink); }
-      .feat-cell:nth-child(5), .feat-cell:nth-child(6) { border-bottom: none; }
-      .price-grid { grid-template-columns: 1fr; }
-      .price-cell { border-right: none; border-bottom: 1.5px solid var(--ink); }
-      .price-cell:last-child { border-bottom: none; }
-      .prob-grid { grid-template-columns: 1fr; }
-      .prob-cell { border-right: none; border-bottom: 1.5px solid var(--ink); }
-      .prob-cell:last-child { border-bottom: none; }
-      .ss-inner { flex-wrap: wrap; }
-      .ss-item { min-width: 50%; }
-    }
-    @media (max-width: 600px) {
-      .nav-links { display: none; }
-      .feat-grid, .niche-cards { grid-template-columns: 1fr; }
-      .hero-stats { flex-wrap: wrap; }
-      .hstat { min-width: 50%; }
-      .wl-form { flex-direction: column; }
-      .wl-submit { padding: 14px; }
-      .foot-inner { flex-direction: column; gap: 20px; text-align: center; }
-      .role-toggle { flex-direction: column; }
-      .role-btn { border-right: none; border-bottom: 1.5px solid var(--black); }
-      .role-btn:last-child { border-bottom: none; }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <!-- NAV -->
 <nav id="nav">
   <div class="nav-inner">
-    <a href="#" class="logo">Forge<span class="logo-grip">Grip</span><span class="logo-dot"></span></a>
+    <a href="#" class="logo"><img src="nav-icon.png" alt="" class="logo-icon">Forge<span class="logo-grip">Grip</span><span class="logo-dot"></span></a>
     <ul class="nav-links">
       <li><a href="#features">Features</a></li>
       <li><a href="#displays">Displays</a></li>
+      <li><a href="compete.html">Compete</a></li>
+      <li><a href="membership.html">Membership</a></li>
       <li><a href="#pricing">Pricing</a></li>
     </ul>
     <a href="#waitlist" class="btn btn-nav">Join Waitlist</a>
@@ -653,9 +135,12 @@
 <div class="stats-strip" style="border-top:1.5px solid var(--ink);">
   <div class="ss-inner container">
     <div class="ss-item"><span class="ss-num ct">Live</span><span class="ss-lbl">Updates across all screens</span></div>
-    <div class="ss-item"><span class="ss-num cv">$0</span><span class="ss-lbl">For members to use</span></div>
-    <div class="ss-item"><span class="ss-num cg">$35</span><span class="ss-lbl">Per display screen</span></div>
-    <div class="ss-item"><span class="ss-num ct">25+</span><span class="ss-lbl">Badges &amp; achievements</span></div>
+    <div class="ss-item"><span class="ss-num cv">92%</span><span class="ss-lbl">Of members log workouts</span></div>
+    <div class="ss-item"><span class="ss-num cg">78%</span><span class="ss-lbl">Keep a weekly check-in streak</span></div>
+    <div class="ss-item"><span class="ss-num ct">$35</span><span class="ss-lbl">Per display screen</span></div>
+  </div>
+  <div class="container" style="padding-top:10px;padding-bottom:14px;">
+    <span style="font-family:var(--font-m);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);">Real usage at The Wolf's Den — ForgeGrip's founding gym · see it in <a href="membership.html" style="color:var(--teal-d);">Membership</a></span>
   </div>
 </div>
 
@@ -928,11 +413,103 @@
   </div>
 </section>
 
+<!-- COMPETE (HYROX) -->
+<section class="s-white pad">
+  <div class="container">
+    <div class="sec-row rev">
+      <span class="sec-num">07</span>
+      <span class="sec-label">Live Competition</span>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:end; margin-bottom:60px;">
+      <h2 class="sec-h rev" style="margin-bottom:0;">HYROX. Timed Live.<br>On Every Wall.</h2>
+      <p class="sec-sub rev d1">A full tap-timing competition system, built the same way everything else here is — real-time, self-healing, no proprietary hardware. Marshals tap from their phone. The big screen updates itself.</p>
+    </div>
+
+    <div class="showcase-row rev d2">
+      <div class="showcase-shot"><img src="shots/live-wave-tracking.png" alt="Marshal tap-timing screen, wave 2 of 5, live"></div>
+      <div>
+        <div class="showcase-eyebrow">Marshal Tap Timing</div>
+        <h3 class="showcase-title">One Tap Per Athlete.<br>No Stopwatch.</h3>
+        <p class="showcase-desc">Each marshal is assigned a wave, not a station — every athlete shown wherever they personally are on the course, their clock ticking live. Tap "Next Seg" and it writes the split, timed by the server, so two marshals' phones can never disagree on a result.</p>
+        <p class="showcase-note">Shown with simulated event data.</p>
+      </div>
+    </div>
+
+    <div class="showcase-row rev-layout rev d3" style="margin-top:72px;">
+      <div class="showcase-shot"><img src="shots/live-event-display.png" alt="Big-screen venue display with live wave clocks and segment progress"></div>
+      <div>
+        <div class="showcase-eyebrow">Big-Screen Venue Display</div>
+        <h3 class="showcase-title">The Whole Event,<br>On The Wall.</h3>
+        <p class="showcase-desc">A wave schedule, live segment-progress bars per athlete, a "Finishing Soon" panel, and a QR code straight to results — the same self-healing wall-display technology already running your WOD board, built for race day instead.</p>
+        <p class="showcase-note">Shown with simulated event data.</p>
+      </div>
+    </div>
+
+    <div class="cta-banner" style="margin-top:72px;">
+      <h3>See the Full Compete System</h3>
+      <p>Personal station results, gym-vs-network comparisons, and what it took to build it.</p>
+      <a href="compete.html" class="btn btn-dark">Explore Compete →</a>
+    </div>
+  </div>
+</section>
+
+<!-- MEMBERSHIP TIERS -->
+<section class="s-cream pad">
+  <div class="container">
+    <div class="sec-row rev">
+      <span class="sec-num">08</span>
+      <span class="sec-label">Member Tiers</span>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:end; margin-bottom:0;">
+      <h2 class="sec-h rev" style="margin-bottom:0;">Free. Pro.<br>Performance.</h2>
+      <p class="sec-sub rev d1">A built-in reason for members to go deeper, without you having to build a loyalty program yourself. Three tiers, each answering a different question.</p>
+    </div>
+    <div class="price-grid rev d2">
+      <div class="price-cell">
+        <div class="price-tier">Free</div>
+        <div class="price-amt" style="font-size:24px;line-height:1.2;">"Am I<br>showing up?"</div>
+        <div class="price-period">$0, forever</div>
+        <ul class="price-feats">
+          <li>Name, photo, level &amp; weekly streak</li>
+          <li>Your own bests over time</li>
+          <li>Badge count, next badge to chase</li>
+        </ul>
+      </div>
+      <div class="price-cell featured">
+        <div class="price-best">Comped for local members</div>
+        <div class="price-tier">Pro</div>
+        <div class="price-amt" style="font-size:24px;line-height:1.2;color:var(--volt);">"Where do I<br>stand here?"</div>
+        <div class="price-period">Free for Wolf's Den members</div>
+        <ul class="price-feats">
+          <li>Everything in Free</li>
+          <li>Rank &amp; gap to the gym above you</li>
+          <li>Badges with rarity tiers, shareable card</li>
+        </ul>
+      </div>
+      <div class="price-cell">
+        <div class="price-tier">Performance <span class="badge badge-b" style="margin-left:4px;">Early Access</span></div>
+        <div class="price-amt" style="font-size:24px;line-height:1.2;">"Am I getting<br>faster, vs who?"</div>
+        <div class="price-period">Included free while in Early Access</div>
+        <ul class="price-feats">
+          <li>Everything in Pro</li>
+          <li>Per-station HYROX radar &amp; benchmarks</li>
+          <li>Coach feedback on a specific race</li>
+        </ul>
+      </div>
+    </div>
+    <div class="cta-banner" style="margin-top:52px;">
+      <h3>See the Full Tier Breakdown</h3>
+      <p>What's actually included at each level — no pricing yet, just the ladder.</p>
+      <a href="membership.html" class="btn btn-dark">Explore Membership →</a>
+    </div>
+  </div>
+</section>
+
 <!-- PRICING -->
 <section class="s-cream pad" id="pricing">
   <div class="container">
     <div class="sec-row rev">
-      <span class="sec-num">07</span>
+      <span class="sec-num">09</span>
       <span class="sec-label">Pricing</span>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:end;margin-bottom:0">
@@ -1039,12 +616,14 @@
   <div class="container">
     <div class="foot-inner">
       <div>
-        <a href="#" class="foot-logo">Forge<span class="grip">Grip</span><span class="logo-dot"></span></a>
+        <a href="#" class="foot-logo"><img src="nav-icon.png" alt="" class="logo-icon">Forge<span class="grip">Grip</span><span class="logo-dot"></span></a>
         <div class="foot-copy">© 2026 ForgeGrip · Built for obstacle athletes</div>
       </div>
       <div class="foot-links">
         <a href="#features">Features</a>
         <a href="#displays">Displays</a>
+        <a href="compete.html">Compete</a>
+        <a href="membership.html">Membership</a>
         <a href="#pricing">Pricing</a>
         <a href="#waitlist">Waitlist</a>
         <a href="mailto:hello@forgegrip.app">Contact</a>

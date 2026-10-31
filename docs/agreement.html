@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ForgeGrip — Founding Gym Agreement</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Epilogue:wght@400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0A0A0A;
+    --cream: #F0EAE0;
+    --teal: #06B6D4;
+    --gold: #D97706;
+    --ink: #1a1a1a;
+    --muted: #555;
+    --line: #ddd;
+  }
+
+  body {
+    font-family: 'Epilogue', Georgia, serif;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink);
+    background: #fff;
+    padding: 0;
+    margin: 0;
+  }
+
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 60px 60px 80px;
+  }
+
+  /* Header */
+  .doc-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--black);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+  }
+
+  .brand {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: 28px;
+    letter-spacing: -0.5px;
+    line-height: 1;
+    color: var(--black);
+  }
+
+  .brand span {
+    color: var(--teal);
+  }
+
+  .doc-meta {
+    text-align: right;
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: 26px;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+    color: var(--black);
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+
+  .parties-box {
+    background: #f7f7f7;
+    border: 1.5px solid var(--line);
+    border-left: 4px solid var(--teal);
+    padding: 20px 24px;
+    margin-bottom: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .party-label {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 6px;
+  }
+
+  .party-name {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+
+  .party-fill {
+    border-bottom: 1.5px solid var(--ink);
+    display: inline-block;
+    min-width: 200px;
+    height: 20px;
+    vertical-align: bottom;
+  }
+
+  .effective-date {
+    margin-bottom: 32px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .effective-date strong {
+    color: var(--ink);
+  }
+
+  .effective-date .fill-line {
+    border-bottom: 1.5px solid var(--ink);
+    display: inline-block;
+    width: 160px;
+    height: 18px;
+    vertical-align: bottom;
+    margin-left: 8px;
+  }
+
+  /* Sections */
+  section {
+    margin-bottom: 36px;
+    page-break-inside: avoid;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    border-bottom: 1.5px solid var(--line);
+    padding-bottom: 8px;
+  }
+
+  .section-number {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: 28px;
+    color: var(--line);
+    line-height: 1;
+    min-width: 28px;
+  }
+
+  h2 {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--black);
+  }
+
+  .highlight-box {
+    background: #f0f9ff;
+    border: 1.5px solid #bae6fd;
+    border-left: 4px solid var(--teal);
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-size: 13px;
+  }
+
+  .highlight-box.gold {
+    background: #fffbeb;
+    border-color: #fde68a;
+    border-left-color: var(--gold);
+  }
+
+  .clause {
+    margin-bottom: 12px;
+    padding-left: 20px;
+    position: relative;
+    font-size: 13.5px;
+  }
+
+  .clause::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 12px 0;
+  }
+
+  th {
+    background: var(--black);
+    color: #fff;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    text-align: left;
+  }
+
+  td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle;
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #f9f9f9; }
+
+  /* Checkboxes */
+  .checkbox-table td:last-child {
+    white-space: nowrap;
+    font-size: 16px;
+    color: #666;
+  }
+
+  /* Fill lines */
+  .fill-line-short {
+    border-bottom: 1.5px solid var(--ink);
+    display: inline-block;
+    width: 200px;
+    height: 18px;
+    vertical-align: bottom;
+    margin: 0 6px;
+  }
+
+  .fill-line-long {
+    border-bottom: 1.5px solid var(--ink);
+    display: inline-block;
+    width: 300px;
+    height: 18px;
+    vertical-align: bottom;
+    margin: 0 6px;
+  }
+
+  /* Family members */
+  .family-entry {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+
+  .family-entry .fill-line-long { width: 240px; }
+
+  /* Signatures */
+  .signatures {
+    margin-top: 48px;
+    page-break-inside: avoid;
+  }
+
+  .sig-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 24px;
+  }
+
+  .sig-block {
+    border-top: 2px solid var(--black);
+    padding-top: 12px;
+  }
+
+  .sig-label {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+
+  .sig-line {
+    border-bottom: 1.5px solid var(--ink);
+    margin-bottom: 6px;
+    height: 40px;
+  }
+
+  .sig-field {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+    margin-bottom: 16px;
+  }
+
+  /* Footer */
+  .doc-footer {
+    margin-top: 48px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  /* Print */
+  @media print {
+    @page { margin: 0.75in; }
+    body { background: #fff; }
+    .page { max-width: 100%; padding: 0; margin: 0; }
+    a { color: inherit; text-decoration: none; }
+    section { page-break-inside: avoid; }
+    .signatures { page-break-before: always; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="doc-header">
+    <div class="brand">Forge<span>Grip</span></div>
+    <div class="doc-meta">
+      Founding Gym Agreement<br>
+      Confidential — Draft
+    </div>
+  </div>
+
+  <h1>Founding Gym Agreement</h1>
+  <div class="subtitle">The Wolf's Den &amp; ForgeGrip</div>
+
+  <div class="effective-date">
+    <strong>Effective Date:</strong><span class="fill-line"></span>
+  </div>
+
+  <div class="parties-box">
+    <div>
+      <div class="party-label">Party A — ForgeGrip</div>
+      <div class="party-name">Francisco Meza</div>
+      <div style="font-size:12px;color:var(--muted)">forgegrip.app</div>
+    </div>
+    <div>
+      <div class="party-label">Party B — The Wolf's Den</div>
+      <div class="party-name">Gym Owner: <span class="fill-line" style="min-width:140px;"></span></div>
+      <div style="font-size:12px;color:var(--muted)">The Wolf's Den Gym</div>
+    </div>
+  </div>
+
+  <!-- Section 1 -->
+  <section>
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <h2>Founding Gym Status</h2>
+    </div>
+    <p>The Wolf's Den is hereby recognized as <strong>Founding Gym #1</strong> of the ForgeGrip platform. This designation is permanent and non-transferable.</p>
+  </section>
+
+  <!-- Section 2 -->
+  <section>
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <h2>ForgeGrip Platform Access</h2>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Core Benefit:</strong> The Wolf's Den receives full, unlimited access to the ForgeGrip platform — including all current features and all features added in the future — at no cost.
+    </div>
+
+    <div class="clause" data-label="a)">
+      This access remains <strong>FREE</strong> for as long as ForgeGrip has at least one (1) other paying gym actively subscribed to the platform.
+    </div>
+
+    <div class="clause" data-label="b)">
+      If ForgeGrip ever drops below one (1) other paying gym, The Wolf's Den may be asked to contribute a platform fee of <strong>no more than $499/month</strong>. This maximum rate is locked permanently — it will never increase regardless of future pricing changes to other customers.
+    </div>
+
+    <div class="clause" data-label="c)">
+      This contribution is only applicable if Francisco is no longer able to support the gym in person due to relocation. If Francisco remains local and active, no fee will be charged regardless of how many other paying gyms exist on the platform.
+    </div>
+  </section>
+
+  <!-- Section 3 -->
+  <section>
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <h2>Gym Membership — Francisco &amp; Family</h2>
+    </div>
+
+    <div class="clause" data-label="a)">
+      The Gym Owner agrees to provide unlimited gym membership for Francisco Meza and up to three (3) family members (four individuals total), for as long as this Agreement remains in effect and The Wolf's Den operates as a gym.
+    </div>
+
+    <div class="clause" data-label="b)">
+      <div style="margin-bottom:8px;">Family members covered:</div>
+      <div class="family-entry"><span style="color:var(--muted);font-size:12px;">1.</span><span class="fill-line-long"></span></div>
+      <div class="family-entry"><span style="color:var(--muted);font-size:12px;">2.</span><span class="fill-line-long"></span></div>
+      <div class="family-entry"><span style="color:var(--muted);font-size:12px;">3.</span><span class="fill-line-long"></span></div>
+    </div>
+
+    <div class="clause" data-label="c)">
+      <div style="margin-bottom:8px;">Membership covers standard class access. The following items require explicit agreement — please mark each:</div>
+      <table class="checkbox-table">
+        <thead><tr><th>Item</th><th>Included</th><th>Not Included</th></tr></thead>
+        <tbody>
+          <tr><td>Regular classes</td><td>☐</td><td>☐</td></tr>
+          <tr><td>Special events / competitions</td><td>☐</td><td>☐</td></tr>
+          <tr><td>Camps (youth or adult)</td><td>☐</td><td>☐</td></tr>
+          <tr><td>Private coaching sessions</td><td>☐</td><td>☐</td></tr>
+          <tr><td>Merchandise / retail</td><td>☐</td><td>☐</td></tr>
+          <tr><td>Other: <span class="fill-line-short" style="width:140px;"></span></td><td>☐</td><td>☐</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="clause" data-label="d)">
+      If The Wolf's Den sells or transfers ownership, the new owner shall be informed of this Agreement. Membership continuation under new ownership is subject to mutual agreement at that time.
+    </div>
+  </section>
+
+  <!-- Section 4 -->
+  <section>
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <h2>Referral Commission — Active Sales</h2>
+    </div>
+
+    <p style="margin-bottom:12px;font-size:13.5px;">If the Gym Owner actively sells and closes a new gym onto the ForgeGrip platform, the Gym Owner shall receive:</p>
+
+    <table>
+      <thead><tr><th>Gyms Closed (Cumulative)</th><th>Commission Rate</th><th>Duration Per Gym</th></tr></thead>
+      <tbody>
+        <tr><td>Gyms 1 through 10</td><td><strong>10%</strong> of monthly fee</td><td>12 months</td></tr>
+        <tr><td>Gyms 11 through 20</td><td><strong>10%</strong> of monthly fee</td><td>18 months</td></tr>
+        <tr><td>Gyms 21 and beyond</td><td><strong>10%</strong> of monthly fee</td><td>24 months</td></tr>
+      </tbody>
+    </table>
+
+    <div class="clause" data-label="a)" style="margin-top:12px;">
+      "Closed" means the referred gym has signed an agreement with ForgeGrip and made at least one monthly payment.
+    </div>
+
+    <div class="clause" data-label="b)">
+      Commission payments begin the month after the referred gym's first payment is received.
+    </div>
+  </section>
+
+  <!-- Section 5 -->
+  <section>
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <h2>Referral Commission — Introductions Only</h2>
+    </div>
+
+    <div class="clause" data-label="a)">
+      If the Gym Owner provides a warm introduction or referral lead and ForgeGrip independently closes the gym, the Gym Owner receives <strong>5%</strong> of the referred gym's monthly platform fee for <strong>twelve (12) months</strong>.
+    </div>
+
+    <div class="clause" data-label="b)">
+      A referral qualifies only if the Gym Owner provides the lead in writing (text or email) before ForgeGrip has made any prior contact with that gym.
+    </div>
+
+    <div class="clause" data-label="c)">
+      Referral and active sales commissions are <strong>not stackable</strong> on the same gym. If the Gym Owner both refers and actively closes the same gym, only the Active Sales rate in Section 4 applies.
+    </div>
+  </section>
+
+  <!-- Section 6 -->
+  <section>
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <h2>Founding Gym Recognition</h2>
+    </div>
+
+    <div class="clause" data-label="a)">
+      The Wolf's Den will be recognized as Founding Gym #1 on forgegrip.app and in marketing materials, subject to the Gym Owner's approval of any specific language used.
+    </div>
+
+    <div class="clause" data-label="b)">
+      A testimonial quote from the Gym Owner may be used in marketing materials with prior written approval. Text message or email constitutes written approval.
+    </div>
+  </section>
+
+  <!-- Section 7 -->
+  <section>
+    <div class="section-header">
+      <div class="section-number">7</div>
+      <h2>Term &amp; Termination</h2>
+    </div>
+
+    <div class="clause" data-label="a)">
+      This Agreement begins on the Effective Date and continues indefinitely unless terminated by mutual written agreement.
+    </div>
+
+    <div class="clause" data-label="b)">
+      Either party may request to renegotiate terms with thirty (30) days written notice. Existing commission obligations for already-referred gyms survive termination for their full applicable term.
+    </div>
+
+    <div class="clause" data-label="c)">
+      If The Wolf's Den permanently closes, this Agreement ends automatically. Accrued unpaid commissions shall be paid within 30 days.
+    </div>
+  </section>
+
+  <!-- Section 8 -->
+  <section>
+    <div class="section-header">
+      <div class="section-number">8</div>
+      <h2>General</h2>
+    </div>
+
+    <div class="clause" data-label="a)">
+      This Agreement is between Francisco Meza and The Wolf's Den Gym Owner individually. It does not create a partnership, joint venture, or employment relationship.
+    </div>
+
+    <div class="clause" data-label="b)">
+      Commission payments will be made via <span class="fill-line-short" style="width:120px;"></span> by the 15th of each month for the prior month's activity.
+    </div>
+
+    <div class="clause" data-label="c)">
+      This Agreement may be amended only in writing, signed by both parties.
+    </div>
+
+    <div class="clause" data-label="d)">
+      This Agreement is governed by the laws of the State of <span class="fill-line-short" style="width:120px;"></span>.
+    </div>
+  </section>
+
+  <!-- Signatures -->
+  <div class="signatures">
+    <div style="font-family:'Barlow',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.5px;text-transform:uppercase;border-bottom:2px solid var(--black);padding-bottom:8px;margin-bottom:24px;">Signatures</div>
+
+    <div class="sig-grid">
+      <div class="sig-block">
+        <div class="sig-label">Party A — ForgeGrip</div>
+        <div class="sig-line"></div>
+        <div class="sig-field">Signature</div>
+        <div class="sig-line" style="height:24px;"></div>
+        <div class="sig-field">Printed Name: Francisco Meza</div>
+        <div class="sig-line" style="height:24px;"></div>
+        <div class="sig-field">Date</div>
+      </div>
+
+      <div class="sig-block">
+        <div class="sig-label">Party B — The Wolf's Den</div>
+        <div class="sig-line"></div>
+        <div class="sig-field">Signature</div>
+        <div class="sig-line" style="height:24px;"></div>
+        <div class="sig-field">Printed Name</div>
+        <div class="sig-line" style="height:24px;"></div>
+        <div class="sig-field">Title / Date</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-footer">
+    This agreement was drafted in good faith between two parties with an established relationship.<br>
+    Both parties are encouraged to review with independent legal counsel before signing. | forgegrip.app
+  </div>
+
+</div>
+</body>
+</html>

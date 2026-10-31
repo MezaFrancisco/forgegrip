@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compete — Live HYROX Timing for ForgeGrip Gyms</title>
+
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <meta name="description" content="A full HYROX-style competition system built into ForgeGrip: marshal tap timing, a live big-screen venue display, and per-station analytics — no proprietary hardware.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://forgegrip.app/compete.html">
+  <meta property="og:title" content="Compete — Live HYROX Timing for ForgeGrip Gyms">
+  <meta property="og:description" content="Marshal tap timing, a live big-screen venue display, and per-station analytics — built into ForgeGrip, no proprietary hardware.">
+  <meta property="og:image" content="https://forgegrip.app/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Compete — Live HYROX Timing for ForgeGrip Gyms">
+  <meta name="twitter:description" content="Marshal tap timing, a live big-screen venue display, and per-station analytics — built into ForgeGrip, no proprietary hardware.">
+  <meta name="twitter:image" content="https://forgegrip.app/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,700;0,900;1,900&family=Epilogue:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><img src="nav-icon.png" alt="" class="logo-icon">Forge<span class="logo-grip">Grip</span><span class="logo-dot"></span></a>
+    <ul class="nav-links">
+      <li><a href="index.html#features">Features</a></li>
+      <li><a href="index.html#displays">Displays</a></li>
+      <li><a href="compete.html">Compete</a></li>
+      <li><a href="membership.html">Membership</a></li>
+      <li><a href="index.html#pricing">Pricing</a></li>
+    </ul>
+    <a href="#waitlist" class="btn btn-nav">Join Waitlist</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<section class="s-black pad-sm" style="padding-top:140px;">
+  <div class="container">
+    <div class="hero-tag">
+      <span class="tag-pill"><span class="live-dot"></span>Shipped — HYROX competitions, live</span>
+    </div>
+    <h1 class="hero-h" style="font-size:clamp(40px,6vw,76px);">
+      <span class="white">Run a Real</span><br>
+      <span class="teal">HYROX Event.</span>
+    </h1>
+    <p class="hero-sub" style="max-width:600px;">Tap timing from a marshal's phone, a live big-screen venue display, and per-station analytics for every athlete — a fully isolated competition module built the same way the rest of ForgeGrip is: real-time, self-healing, and run on hardware you already own.</p>
+    <div class="hero-ctas">
+      <a href="#waitlist" class="btn btn-primary">Join the Waitlist →</a>
+      <a href="#how-it-works" class="btn btn-ghost">See How It Works</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF STRIP -->
+<div class="proof-strip">
+  <div class="container proof-inner">
+    <span class="proof-label">Built in</span>
+    <div class="proof-stats">
+      <div class="proof-stat"><span class="proof-n">16</span><span class="proof-l">Standard HYROX stations, fully reorderable</span></div>
+      <div class="proof-stat"><span class="proof-n">3</span><span class="proof-l">Formats — singles, doubles, relay</span></div>
+      <div class="proof-stat"><span class="proof-n">0</span><span class="proof-l">Proprietary timing hardware required</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="s-white pad" id="how-it-works">
+  <div class="container">
+    <div class="sec-row rev">
+      <span class="sec-num">01</span>
+      <span class="sec-label">How It Works</span>
+    </div>
+
+    <div class="showcase-row rev d1">
+      <div class="showcase-shot"><img src="shots/live-wave-tracking.png" alt="Marshal tap-timing screen, wave 2 of 5, live"></div>
+      <div>
+        <div class="showcase-eyebrow">Marshal Tap Timing</div>
+        <h3 class="showcase-title">A Wave, Not a Station.</h3>
+        <p class="showcase-desc">The usual mistake is scoping a tap screen to one station — but athletes spread out, so a marshal needs their own group, wherever each person actually is on the course. Each marshal gets a wave: every athlete's card shows their current segment and a live clock, and search-to-jump handles anyone out of sequence. Tapping "Next Seg" only ever advances that one athlete.</p>
+        <p class="showcase-desc">Every split is timed by the <strong>server</strong>, not the marshal's phone — so two devices with slightly different clocks can never disagree, and a retried tap can never double-count a result.</p>
+        <p class="showcase-note">Shown with simulated event data.</p>
+      </div>
+    </div>
+
+    <div class="showcase-row rev-layout rev d2" style="margin-top:100px;">
+      <div class="showcase-shot"><img src="shots/live-event-display.png" alt="Big-screen venue display with live wave clocks and segment progress"></div>
+      <div>
+        <div class="showcase-eyebrow">Big-Screen Venue Display</div>
+        <h3 class="showcase-title">Project It. Walk Away.</h3>
+        <p class="showcase-desc">Multiple concurrent wave clocks, a 16-tick segment-progress bar per athlete (not a single blurry percentage), a "Finishing Soon" panel, and a live tap ticker across the bottom — reusing the same self-healing, auto-reconnecting wall-display technology already running your WOD board and leaderboard. Point a Fire TV Stick at it and it looks after itself.</p>
+        <p class="showcase-desc">A QR code on screen links straight to results — athletes claim their result without a staff member doing it for them.</p>
+        <p class="showcase-note">Shown with simulated event data.</p>
+      </div>
+    </div>
+
+    <div class="showcase-row rev d3" style="margin-top:100px;">
+      <div class="showcase-shot"><img src="shots/hyrox-percentile-breakdown.png" alt="Personal HYROX result with per-station percentile radar"></div>
+      <div>
+        <div class="showcase-eyebrow">Per-Station Results</div>
+        <h3 class="showcase-title">Every Station,<br>Not Just the Finish Time.</h3>
+        <p class="showcase-desc">Every athlete gets an 8-axis radar on their own result — toggle between their percentile against everything the gym has ever logged on that station, their rank in that day's field, or how they did versus their own last race. Their weakest station is called out in amber: that's the actual coaching point, not just a finish time.</p>
+        <p class="showcase-desc">Every percentile carries its sample size, so a number built on four attempts can't pose as a real one — and a station a coach hasn't named yet shows up honestly as "not recognised" instead of a guess.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NETWORK VISION -->
+<section class="s-cream pad">
+  <div class="container">
+    <div class="sec-row rev">
+      <span class="sec-num">02</span>
+      <span class="sec-label">Where This Goes</span>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:end; margin-bottom:44px;">
+      <h2 class="sec-h rev" style="margin-bottom:0;">One Gym Today.<br>A Network Later.</h2>
+      <p class="sec-sub rev d1">Every HYROX table already carries the same two keys everything else in ForgeGrip joins through — gym and member. The moment a second gym comes on board, station-by-station comparison across gyms is a normal join, not a rebuild.</p>
+    </div>
+    <div class="rev d2" style="text-align:center;">
+      <img src="shots/hyrox-station-strength.png" alt="Gym vs. network station comparison, future concept" style="max-width:100%; border:1.5px solid var(--ink); box-shadow:14px 14px 0 var(--cream2);">
+      <p class="showcase-note" style="margin-top:16px; display:inline-block;">Concept view — cross-gym comparison activates once more gyms are onboarded. Not live today.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BUILT RIGHT -->
+<section class="s-black pad">
+  <div class="container">
+    <div class="sec-row rev" style="border-bottom-color:rgba(255,255,255,0.12);">
+      <span class="sec-num" style="color:rgba(255,255,255,0.25);">03</span>
+      <span class="sec-label">Built The Hard Way</span>
+    </div>
+    <h2 class="sec-h sec-h-inv rev" style="margin-bottom:28px;">Race Day Doesn't<br>Get a Second Try.</h2>
+    <div class="check-list rev d1" style="max-width:640px;">
+      <div class="ci" style="color:rgba(240,234,224,0.6);"><span class="ci-mark">✓</span><span><strong style="color:var(--cream);">Fully isolated schema</strong> — competition tables never touch your gym's real leaderboards or records, so a HYROX migration can never put live data at risk.</span></div>
+      <div class="ci" style="color:rgba(240,234,224,0.6);"><span class="ci-mark">✓</span><span><strong style="color:var(--cream);">Server-timed, idempotent taps</strong> — every split is stamped by the database, not a device clock, and a retried tap writes the same result once, not twice.</span></div>
+      <div class="ci" style="color:rgba(240,234,224,0.6);"><span class="ci-mark">✓</span><span><strong style="color:var(--cream);">Any format, one screen</strong> — singles, doubles, and relay waves run side by side in the same event, picked per wave, not locked in at setup.</span></div>
+      <div class="ci" style="color:rgba(240,234,224,0.6);"><span class="ci-mark">✓</span><span><strong style="color:var(--cream);">Standard course, fully editable</strong> — defaults to the real 16-segment HYROX sequence, reorder or rename any segment for your own course.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="cta-banner">
+  <h3>Want This at Your Next Event?</h3>
+  <p>Join the waitlist and we'll reach out when Compete is ready for your gym.</p>
+  <a href="#waitlist" class="btn btn-dark">Join the Waitlist →</a>
+</div>
+
+<!-- WAITLIST (TEAL) -->
+<section class="s-teal" id="waitlist">
+  <div class="container">
+    <div class="wl-inner">
+      <div style="font-family:var(--font-m);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(10,10,10,0.45);margin-bottom:16px;" class="rev">Early Access</div>
+      <h2 class="wl-h rev">Be First to<br>Forge Your Gym.</h2>
+      <p class="wl-sub rev d1">We're onboarding founding gyms now. Early access members get locked-in pricing and direct input on the roadmap.</p>
+      <div class="rev d2" style="display:flex;flex-direction:column;align-items:center;gap:0;">
+        <div class="role-toggle">
+          <button class="role-btn active" onclick="setRole(this,'gym')">🏋 Gym Owner / Coach</button>
+          <button class="role-btn" onclick="setRole(this,'athlete')">🥷 Individual Athlete</button>
+        </div>
+        <form id="wl-form" style="width:100%" onsubmit="handleSubmit(event)">
+          <input type="hidden" name="access_key" value="1d5e3581-a12f-4765-93b8-7c4c04a13dd1">
+          <input type="hidden" name="subject" id="wl-subject" value="ForgeGrip Waitlist — Gym Owner (Compete page)">
+          <input type="hidden" name="from_name" value="ForgeGrip Waitlist">
+          <input type="hidden" name="botcheck" style="display:none">
+          <div class="wl-form">
+            <input type="text" name="name" class="wl-input" placeholder="Your name" required id="wl-name" style="border-right:1px solid var(--cream2);">
+            <input type="email" name="email" class="wl-input" placeholder="your@email.com" required id="wl-email">
+            <button type="submit" class="wl-submit">Join →</button>
+          </div>
+        </form>
+        <div class="wl-ok" id="wl-ok">✓ You're on the list. We'll be in touch when ForgeGrip is ready for your gym.</div>
+        <div class="wl-note rev d3">No spam. No pressure. Just early access when we're ready.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-inner">
+      <div>
+        <a href="index.html" class="foot-logo"><img src="nav-icon.png" alt="" class="logo-icon">Forge<span class="grip">Grip</span><span class="logo-dot"></span></a>
+        <div class="foot-copy">© 2026 ForgeGrip · Built for obstacle athletes</div>
+      </div>
+      <div class="foot-links">
+        <a href="index.html#features">Features</a>
+        <a href="index.html#displays">Displays</a>
+        <a href="compete.html">Compete</a>
+        <a href="membership.html">Membership</a>
+        <a href="index.html#pricing">Pricing</a>
+        <a href="#waitlist">Waitlist</a>
+        <a href="mailto:hello@forgegrip.app">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.rev').forEach(el => obs.observe(el));
+
+  function setRole(btn, role) {
+    document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const label = role === 'gym' ? 'Gym Owner' : 'Individual Athlete';
+    document.getElementById('wl-subject').value = `ForgeGrip Waitlist — ${label} (Compete page)`;
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const form = document.getElementById('wl-form');
+    const btn  = form.querySelector('.wl-submit');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+
+    try {
+      const res  = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: new FormData(form),
+      });
+      const data = await res.json();
+      if (data.success) {
+        form.style.display = 'none';
+        document.getElementById('wl-ok').style.display = 'block';
+      } else {
+        btn.textContent = 'Try again →';
+        btn.disabled = false;
+      }
+    } catch {
+      btn.textContent = 'Try again →';
+      btn.disabled = false;
+    }
+  }
+</script>
+</body>
+</html>

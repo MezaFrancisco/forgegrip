@@ -1,0 +1,37 @@
+FORGEGRIP MARKETING PACK
+Created October 27, 2026
+
+Eight PNG images using the approved cyan/lime FG identity.
+
+WHAT TO USE
+01 Brand overview: visual reference for the logo family.
+02 Logo on dark: horizontal logo for dark website sections, slide decks and email graphics.
+03 App icon / profile avatar: square source for app icon exports and social profile pictures. Keep the symbol centered when using circular crops.
+04 Square social: launch announcement for square social feeds.
+05 Portrait social: taller 4:5 campaign creative for social feeds.
+06 Vertical story: 9:16 story, reel cover or static vertical ad. Add a clickable link sticker in the social app; the pictured button is part of the image.
+07 Website hero: 16:9 banner for landing pages, presentations and landscape campaign placements. Keep the complete composition visible rather than cropping away the headline.
+08 Company cover: wide 3:1 source artwork with room at left for a profile photo. Preview each platform's crop before publishing; different services use different cover sizes.
+
+PALETTE TARGETS
+Near-black #0A0A0A
+Cyan #06B6D4
+Lime #A3E635
+Warm off-white #F0EAE0
+Generated pixels may vary slightly from these target colors.
+
+USAGE
+Keep proportions intact. Leave clear space around the logo. Use lime as a small accent. Avoid stretching, recoloring, adding glow or placing text across the mark.
+All delivered images have dark backgrounds. Transparent logo trials showed artifacts and are excluded.
+These are raster PNG assets, not editable vector master files. For app-store submission, export the square source to the required app/platform dimensions. For large print or exact brand reproduction, commission/refine an outlined vector master.
+The image-generation process can introduce small variations in logo geometry between compositions; use 02-logo-dark.png as the primary standalone logo reference in this pack.
+
+FILE DIMENSIONS
+01-brand-overview.png: 1672 x 941 pixels
+02-logo-dark.png: 2172 x 724 pixels
+03-app-icon-profile-avatar.png: 1254 x 1254 pixels
+04-social-square.png: 1254 x 1254 pixels
+05-social-portrait.png: 1122 x 1402 pixels
+06-story-vertical.png: 941 x 1672 pixels
+07-website-hero.png: 1672 x 941 pixels
+08-company-cover.png: 2172 x 724 pixels

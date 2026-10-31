@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100">
+  <!-- Fallback: typography only, near-zero geometry risk. For DARK surfaces. -->
+  <text x="0" y="66" font-weight="800" font-size="64" letter-spacing="-0.5"
+        font-family="-apple-system,Helvetica,Arial,sans-serif" fill="#F4F0EB">FORGE<tspan fill="#22D3EE">GRIP</tspan></text>
+  <rect x="500" y="18" width="14" height="14" fill="#A3E635" transform="rotate(45 507 25)"/>
+</svg>
